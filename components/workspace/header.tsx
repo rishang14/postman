@@ -9,6 +9,8 @@ import React from "react";
 import { User } from "better-auth";
 import Profile from "../globals/profilecard";
 import Searchbar from "./searchbar";
+import Invitemember from "./invitemember";
+import Workspace from "./workspace";
 
 interface Props {
   user: User;
@@ -32,9 +34,8 @@ const Header = ({ user }: Props) => {
       </div>
 
       <div className="col-span-2 flex items-center justify-end space-x-2 hover:cursor-pointer hover:opacity-80">
-        {/* <InviteMember /> */}
-        {/* @ts-ignore */}
-        {/* <WorkSpace workspace={workspace} /> */}
+        <Invitemember />
+        <Workspace/>
         <Profile user={user} />
       </div>
     </header>

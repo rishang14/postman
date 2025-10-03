@@ -16,7 +16,8 @@ const Searchbar = () => {
   useEffect(() => {
     const keyPress = (e: KeyboardEvent) => {
       if (e.key === "z" && (e.metaKey || e.ctrlKey)) {
-        setOpen(true);
+        e.preventDefault();
+        setOpen((prev) => !prev);
       }
     };
     document.addEventListener("keydown", keyPress);
