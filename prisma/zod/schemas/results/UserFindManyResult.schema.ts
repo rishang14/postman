@@ -9,7 +9,9 @@ export const UserFindManyResultSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   sessions: z.array(z.unknown()),
-  accounts: z.array(z.unknown())
+  accounts: z.array(z.unknown()),
+  workapce: z.array(z.unknown()),
+  WorkspaceMember: z.array(z.unknown())
 })),
   pagination: z.object({
   page: z.number().int().min(1),

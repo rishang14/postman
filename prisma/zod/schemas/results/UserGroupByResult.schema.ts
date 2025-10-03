@@ -16,7 +16,9 @@ export const UserGroupByResultSchema = z.array(z.object({
     createdAt: z.number(),
     updatedAt: z.number(),
     sessions: z.number(),
-    accounts: z.number()
+    accounts: z.number(),
+    workapce: z.number(),
+    WorkspaceMember: z.number()
   }).optional(),
   _min: z.object({
     id: z.string().nullable(),

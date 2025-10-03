@@ -1,7 +1,9 @@
 import * as z from 'zod';
 import type { Prisma } from '@prisma/client';
 import { SessionUncheckedCreateNestedManyWithoutUserInputObjectSchema as SessionUncheckedCreateNestedManyWithoutUserInputObjectSchema } from './SessionUncheckedCreateNestedManyWithoutUserInput.schema';
-import { AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema as AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema } from './AccountUncheckedCreateNestedManyWithoutUserInput.schema'
+import { AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema as AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema } from './AccountUncheckedCreateNestedManyWithoutUserInput.schema';
+import { WorkspaceUncheckedCreateNestedManyWithoutOwnerInputObjectSchema as WorkspaceUncheckedCreateNestedManyWithoutOwnerInputObjectSchema } from './WorkspaceUncheckedCreateNestedManyWithoutOwnerInput.schema';
+import { WorkspaceMemberUncheckedCreateNestedManyWithoutUserInputObjectSchema as WorkspaceMemberUncheckedCreateNestedManyWithoutUserInputObjectSchema } from './WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput.schema'
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
@@ -11,7 +13,9 @@ const makeSchema = () => z.object({
   image: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   sessions: z.lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputObjectSchema),
-  accounts: z.lazy(() => AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema)
+  accounts: z.lazy(() => AccountUncheckedCreateNestedManyWithoutUserInputObjectSchema),
+  workapce: z.lazy(() => WorkspaceUncheckedCreateNestedManyWithoutOwnerInputObjectSchema),
+  WorkspaceMember: z.lazy(() => WorkspaceMemberUncheckedCreateNestedManyWithoutUserInputObjectSchema)
 }).strict();
 export const UserUncheckedCreateInputObjectSchema: z.ZodType<Prisma.UserUncheckedCreateInput> = makeSchema() as unknown as z.ZodType<Prisma.UserUncheckedCreateInput>;
 export const UserUncheckedCreateInputObjectZodSchema = makeSchema();

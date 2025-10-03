@@ -8,5 +8,7 @@ export const UserFindFirstResultSchema = z.nullable(z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   sessions: z.array(z.unknown()),
-  accounts: z.array(z.unknown())
+  accounts: z.array(z.unknown()),
+  workapce: z.array(z.unknown()),
+  WorkspaceMember: z.array(z.unknown())
 }));

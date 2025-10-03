@@ -10,7 +10,9 @@ export const UserInputSchema = z.object({
     createdAt: z.date(),
     updatedAt: z.date(),
     sessions: z.array(z.unknown()),
-    accounts: z.array(z.unknown())
+    accounts: z.array(z.unknown()),
+    workapce: z.array(z.unknown()),
+    WorkspaceMember: z.array(z.unknown())
 }).strict();
 
 export type UserInputType = z.infer<typeof UserInputSchema>;

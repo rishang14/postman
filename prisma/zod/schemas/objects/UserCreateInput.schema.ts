@@ -1,7 +1,9 @@
 import * as z from 'zod';
 import type { Prisma } from '@prisma/client';
 import { SessionCreateNestedManyWithoutUserInputObjectSchema as SessionCreateNestedManyWithoutUserInputObjectSchema } from './SessionCreateNestedManyWithoutUserInput.schema';
-import { AccountCreateNestedManyWithoutUserInputObjectSchema as AccountCreateNestedManyWithoutUserInputObjectSchema } from './AccountCreateNestedManyWithoutUserInput.schema'
+import { AccountCreateNestedManyWithoutUserInputObjectSchema as AccountCreateNestedManyWithoutUserInputObjectSchema } from './AccountCreateNestedManyWithoutUserInput.schema';
+import { WorkspaceCreateNestedManyWithoutOwnerInputObjectSchema as WorkspaceCreateNestedManyWithoutOwnerInputObjectSchema } from './WorkspaceCreateNestedManyWithoutOwnerInput.schema';
+import { WorkspaceMemberCreateNestedManyWithoutUserInputObjectSchema as WorkspaceMemberCreateNestedManyWithoutUserInputObjectSchema } from './WorkspaceMemberCreateNestedManyWithoutUserInput.schema'
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
@@ -11,7 +13,9 @@ const makeSchema = () => z.object({
   image: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   sessions: z.lazy(() => SessionCreateNestedManyWithoutUserInputObjectSchema),
-  accounts: z.lazy(() => AccountCreateNestedManyWithoutUserInputObjectSchema)
+  accounts: z.lazy(() => AccountCreateNestedManyWithoutUserInputObjectSchema),
+  workapce: z.lazy(() => WorkspaceCreateNestedManyWithoutOwnerInputObjectSchema),
+  WorkspaceMember: z.lazy(() => WorkspaceMemberCreateNestedManyWithoutUserInputObjectSchema)
 }).strict();
 export const UserCreateInputObjectSchema: z.ZodType<Prisma.UserCreateInput> = makeSchema() as unknown as z.ZodType<Prisma.UserCreateInput>;
 export const UserCreateInputObjectZodSchema = makeSchema();

@@ -10,7 +10,9 @@ export const UserModelSchema = z.object({
     createdAt: z.date(),
     updatedAt: z.date(),
     sessions: z.array(z.unknown()),
-    accounts: z.array(z.unknown())
+    accounts: z.array(z.unknown()),
+    workapce: z.array(z.unknown()),
+    WorkspaceMember: z.array(z.unknown())
 }).strict();
 
 export type UserModelType = z.infer<typeof UserModelSchema>;
