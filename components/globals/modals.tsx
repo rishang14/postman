@@ -70,7 +70,7 @@ const Modal: React.FC<ModalProps> = ({
             </Button>
             {onSubmit && (
               <Button
-                className=' text-white'
+                className='text-white'
                 onClick={handleSubmit}
               >
                 {submitText}

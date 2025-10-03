@@ -13,19 +13,25 @@ import { Loader, Plus, User } from "lucide-react";
 import { Workspace as WorkSpacetype } from "@prisma/client";
 import { useWorkspace } from "@/lib/store/workspace.store";
 import { Separator } from "../ui/separator";
+import CreateWorkspace from "./createworkspace";
 
 type prop = {
   allworkspaces: WorkSpacetype[];
 };
 
 const Workspace = ({ allworkspaces }: prop) => {
-  const { addworkspace, openedWorkspace, setOpenwokrspace, workspaces } =
-    useWorkspace();
+  const {
+    addworkspace,
+    openedWorkspace,
+    setOpenwokrspace,
+    workspaces,
+    setworkspace,
+  } = useWorkspace();
   const [openCreateModel, setopenCreateModel] = useState<boolean>(false);
 
   useEffect(() => {
-    for (const w of allworkspaces) {
-      addworkspace(w);
+    if (allworkspaces) {
+      setworkspace(allworkspaces);
     }
   }, []);
 
@@ -74,7 +80,7 @@ const Workspace = ({ allworkspaces }: prop) => {
               </span>
               <Button
                 size="icon"
-                variant="outline" 
+                variant="outline"
                 className="cursor-pointer"
                 onClick={() => setopenCreateModel(true)}
               >
@@ -84,6 +90,10 @@ const Workspace = ({ allworkspaces }: prop) => {
           </SelectContent>
         </Select>
       </Hint>
+      <CreateWorkspace
+        isModalOpen={openCreateModel}
+        setIsModalOpen={setopenCreateModel}
+      />
     </>
   );
 };

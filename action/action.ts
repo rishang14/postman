@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { Workspace } from "@prisma/client";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { da } from "zod/v4/locales";
 
 export const getUserDeatils = async () => {
   const session = await auth.api.getSession({
@@ -66,10 +67,10 @@ export const createWorkspace = async (data: Partial<Workspace>) => {
       data: {
         name: data.name as string,
         description: data.description,
-        ownerId: data.ownerId as string,
+        ownerId: userDeatails.id as string,
         members: {
           create: {
-            userId: data.ownerId as string,
+            userId: userDeatails.id,
             role: "ADMIN",
           },
         },
