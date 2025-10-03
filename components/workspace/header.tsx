@@ -36,7 +36,7 @@ const Header = ({ user,workspace }: Props) => {
 
       <div className="col-span-2 flex items-center justify-end space-x-2 hover:cursor-pointer hover:opacity-80">
         <Invitemember />
-        <Workspace workspaces={workspace}/>
+        <Workspace allworkspaces={workspace}/>
         <Profile user={user} />
       </div>
     </header>

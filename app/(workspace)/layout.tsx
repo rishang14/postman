@@ -13,9 +13,8 @@ const WorkSpaceLayout = async ({ children }: { children: React.ReactNode }) => {
   if (!session) {
     return redirect("/signup");
   }     
+  const workspace= await generateworkspaceIfNotExist();   
 
-  const workspace= await generateworkspaceIfNotExist();  
-  console.log(workspace,"space")
   return ( 
     <> 
     <Header user={session.user} workspace={workspace}/>
