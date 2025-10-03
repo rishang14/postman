@@ -9,14 +9,19 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import { Plus, User } from "lucide-react";
+import { Workspace as WorkSpacetype } from "@prisma/client";
 
-const Workspace = () => {
+type prop = {
+  workspaces: WorkSpacetype[];
+};
+
+const Workspace = ({ workspaces }: prop) => {
   // const [open,setOpen]=useState(false)
   return (
     <>
       <Hint label="Change Workspace">
-         <p>WORKSPACE</p>
-         </Hint>
+        <p>WORKSPACE</p>
+      </Hint>
     </>
   );
 };

@@ -11,13 +11,14 @@ import Profile from "../globals/profilecard";
 import Searchbar from "./searchbar";
 import Invitemember from "./invitemember";
 import Workspace from "./workspace";
+import { Workspace as WorkSpacetype } from "@prisma/client";
 
 interface Props {
   user: User;
-  //   workspace: WorkspaceProps
+ workspace: WorkSpacetype[]
 }
 
-const Header = ({ user }: Props) => {
+const Header = ({ user,workspace }: Props) => {
   return (
     <header className="grid grid-cols-5 grid-rows-1 gap-2 overflow-x-auto overflow-hidden p-2 border">
       <div className="col-span-2 flex items-center justify-between space-x-2 hover:cursor-pointer hover:opacity-80 ml-4">
@@ -35,7 +36,7 @@ const Header = ({ user }: Props) => {
 
       <div className="col-span-2 flex items-center justify-end space-x-2 hover:cursor-pointer hover:opacity-80">
         <Invitemember />
-        <Workspace/>
+        <Workspace workspaces={workspace}/>
         <Profile user={user} />
       </div>
     </header>
