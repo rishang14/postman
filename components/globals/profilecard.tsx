@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { User, LogOut, Settings, CreditCard, User as UserIcon } from "lucide-react";
+import {
+  User,
+  LogOut,
+  Settings,
+  CreditCard,
+  User as UserIcon,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,19 +21,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { User as usertype } from "better-auth";
 
 // Types for the user data
-interface UserData {
-  id: string;
-  email: string | null;
-  name: string | null;
-  image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 interface UserButtonProps {
-  user: UserData | null;
+  user: usertype | null;
   onLogout?: () => void | Promise<void>;
   onSettings?: () => void;
   onProfile?: () => void;
@@ -40,7 +39,7 @@ interface UserButtonProps {
   showMemberSince?: boolean;
 }
 
-export default function UserButton({
+export default function Profile({
   user,
   onLogout,
   onSettings,
@@ -56,30 +55,27 @@ export default function UserButton({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-   const onSignOut = async()=>{
+  const onSignOut = async () => {
     await signOut({
-      fetchOptions:{
-        onSuccess:()=>{
-          router.push("/sign-in")
-        }
-      }
-    })
-  }
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/signup");
+        },
+      },
+    });
+  };
 
   const handleLogout = async () => {
-  
-      setIsLoading(true);
-      try {
-        await onSignOut();
-      } catch (error) {
-        console.error("Logout error:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    
+    setIsLoading(true);
+    try {
+      await onSignOut();
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
- 
-  
+
   const getUserInitials = (name: string | null, email: string | null) => {
     if (name) {
       return name
@@ -123,13 +119,14 @@ export default function UserButton({
           className={`relative ${avatarSizes[size]} rounded-full p-0 hover:bg-accent`}
           disabled={isLoading}
         >
-          <Avatar className={avatarSizes[size]}>
+          <Avatar className={`${avatarSizes[size]} cursor-pointer`}>
             <AvatarImage
               src={user.image || ""}
               alt={user.name || "User avatar"}
             />
             <AvatarFallback className="bg-primary text-primary-foreground font-medium">
-              {getUserInitials(user.name, user.email)}
+              {user.name.charAt(0).toUpperCase() ??
+                user.email.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           {showBadge && (
@@ -142,7 +139,7 @@ export default function UserButton({
           )}
         </Button>
       </DropdownMenuTrigger>
-      
+
       <DropdownMenuContent className="w-64" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-2">
@@ -179,36 +176,37 @@ export default function UserButton({
             )}
           </div>
         </DropdownMenuLabel>
-        
+
         <DropdownMenuSeparator />
-        
+
         {onProfile && (
           <DropdownMenuItem onClick={onProfile} className="cursor-pointer">
             <UserIcon className="mr-2 h-4 w-4" />
             Profile
           </DropdownMenuItem>
         )}
-        
+
         {onBilling && (
           <DropdownMenuItem onClick={onBilling} className="cursor-pointer">
             <CreditCard className="mr-2 h-4 w-4" />
             Billing
           </DropdownMenuItem>
         )}
-        
+
         {onSettings && (
           <DropdownMenuItem onClick={onSettings} className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </DropdownMenuItem>
         )}
-        
+
         <DropdownMenuSeparator />
-        
+
         <DropdownMenuItem
           onClick={handleLogout}
           disabled={isLoading}
-          className="cursor-pointer text-destructive focus:text-destructive"
+          variant={"destructive"}
+          className="cursor-pointer "
         >
           <LogOut className="mr-2 h-4 w-4" />
           {isLoading ? "Logging out..." : "Log out"}
