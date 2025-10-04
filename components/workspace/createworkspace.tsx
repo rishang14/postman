@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { createWorkspace } from "@/action/action";
-import { useWorkspace } from "@/lib/store/workspace.store";
+import { useWorkspace, workspacewithmember } from "@/lib/store/workspace.store";
+import { Workspace } from "@prisma/client";
 
 const CreateWorkspace = ({
   isModalOpen,
@@ -28,8 +29,8 @@ const CreateWorkspace = ({
     try {
       let newWorkspaceName =
         name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
-      const createdspace = await createWorkspace({ name: newWorkspaceName });
-      addworkspace(createdspace);
+      const createdspace = await createWorkspace({ name: newWorkspaceName }); 
+      addworkspace({...createdspace as workspacewithmember , collection:[]});
       toast.success("Congratulations", {
         duration: 3000,
         description: "Workspace is created",

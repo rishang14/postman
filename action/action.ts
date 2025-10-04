@@ -1,10 +1,9 @@
 "use server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { Workspace } from "@prisma/client";
+import { workspacewithmember } from "@/lib/store/workspace.store";
+import { Collection, Workspace } from "@prisma/client";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { da } from "zod/v4/locales";
 
 export const getUserDeatils = async () => {
   const session = await auth.api.getSession({
@@ -19,7 +18,7 @@ export const generateworkspaceIfNotExist = async () => {
   const userDeatails = await getUserDeatils();
 
   if (!userDeatails) {
-    return redirect("/signup");
+    return;
   }
   const workspace = await prisma.workspace.findMany({
     where: {
@@ -60,7 +59,7 @@ export const createWorkspace = async (data: Partial<Workspace>) => {
   try {
     const userDeatails = await getUserDeatils();
     if (!userDeatails) {
-      return redirect("/signup");
+      return;
     }
 
     const createnewWorkspace = await prisma.workspace.create({
@@ -80,7 +79,7 @@ export const createWorkspace = async (data: Partial<Workspace>) => {
       },
     });
 
-    return createnewWorkspace;
+    return createnewWorkspace as workspacewithmember;
   } catch (error) {
     throw new Error("Error while creating new space");
   }
@@ -89,7 +88,7 @@ export const createWorkspace = async (data: Partial<Workspace>) => {
 export const getWorkspaceDeatils = async (id: string) => {
   const userDeatails = await getUserDeatils();
   if (!userDeatails) {
-    return redirect("/signup");
+    return;
   }
 
   try {
@@ -106,4 +105,51 @@ export const getWorkspaceDeatils = async (id: string) => {
   } catch (error) {
     throw new Error("Something went wrong while fetching the details ");
   }
+};
+
+export const ceateCollection = async (workspaceId: string, name: string) => {
+  try {
+    const createdCollection = await prisma.collection.create({
+      data: {
+        name,
+        workspace: {
+          connect: {
+            id: workspaceId,
+          },
+        },
+      },
+    });
+
+    return createdCollection;
+  } catch (error) {
+    console.log("error while creating the collection");
+    throw new Error("Error while creating the collection");
+  }
+};
+
+export const getCollections = async (workspaceId: string) => {
+  return prisma.collection.findMany({
+    where: {
+      workspaceId,
+    },
+  });
+};
+
+export const deleteCollcetion = async (collectionId: string) => {
+  return await prisma.collection.delete({
+    where: {
+      id: collectionId,
+    },
+  });
+};
+
+export const updateCollection = async (values: Partial<Collection>) => {
+  return prisma.collection.update({
+    where: {
+      id: values.id as string,
+    },
+    data: {
+      ...values,
+    },
+  });
 };

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Hint } from "../ui/hint";
 import {
   Select,
@@ -29,11 +29,15 @@ const Workspace = ({ allworkspaces }: prop) => {
   } = useWorkspace();
   const [openCreateModel, setopenCreateModel] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (allworkspaces) {
-      setworkspace(allworkspaces);
-    }
+  const extendedWorkspaces = useMemo(() => {
+    return allworkspaces.map((w) => ({ ...w, members: [], collection: [] }));
   }, []);
+
+  useEffect(() => {
+    if (extendedWorkspaces.length > 0) {
+      setworkspace(extendedWorkspaces);
+    }
+  }, [extendedWorkspaces]);
 
   useEffect(() => {
     if (allworkspaces && allworkspaces.length > 0 && openedWorkspace === null) {

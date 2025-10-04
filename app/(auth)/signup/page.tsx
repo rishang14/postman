@@ -1,6 +1,12 @@
 import React from "react";
 import Loginbutton from "@/components/globals/loginbutton";
-import Link from "next/link";
+import Link from "next/link"; 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Signup",
+  description: "This is signup page for postman123",
+};
 
 const LoginPage = () => {
   return (
