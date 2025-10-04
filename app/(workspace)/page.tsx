@@ -1,10 +1,16 @@
-import CollectionPage from '@/components/collection/collection'
-import React from 'react'
+import { getCollections } from "@/action/action";
+import CollectionPage from "@/components/workspacerightsidebar/collection";
+import React from "react";
 
-const Homepage = () => {
-  return (
-    <CollectionPage/>
-  )
-}
+const Homepage = async ({ searchParams }: any) => {
+  const { wid } = await searchParams;
+  
 
-export default Homepage
+  if(!wid)return;  
+
+  const collections= await getCollections(wid); 
+  
+  return <CollectionPage collection={collections} />;
+};
+
+export default Homepage;

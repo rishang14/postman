@@ -1,38 +1,37 @@
 "use client";
+
 import Modal from "../globals/modals";
+
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
-import { createWorkspace } from "@/action/action";
-import { useWorkspace, workspacewithmember } from "@/lib/store/workspace.store";
-import { Workspace } from "@prisma/client";
+import { useWorkspace } from "@/lib/store/workspace.store";
 
-const CreateWorkspace = ({
+const CreateCollectionModal= ({
   isModalOpen,
   setIsModalOpen,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
 }) => {
-  console.log("i am childe component of the workspace ");
   const [name, setName] = useState("");
-  const [pending, setIspending] = useState<boolean>(false);
-  const { addworkspace } = useWorkspace();
-  const [err, setErr] = useState<string | null>(null);
+  const [isPending, setIspending] = useState(false);
+  const [err, setErr] = useState(""); 
+  const {addCollcetion,openedWorkspace}=useWorkspace()
 
   const handleSubmit = async () => {
     if (name.trim().length < 3) {
-      setErr("Workspace name should contain atleast 3 words");
+      setErr("Collection name should contain atleast 3 words");
       return;
     }
     setIspending(true);
-    try { 
+    try {
       let newWorkspaceName = name.trim().charAt(0).toUpperCase() + name.trim().substring(1).toLowerCase();
-      const createdspace = await createWorkspace({ name: newWorkspaceName }); 
-      addworkspace({...createdspace as workspacewithmember , collection:[]});
+        const createdCollection = await ({ name: newWorkspaceName });
+      //   addworkspace({...createdspace as workspacewithmember , collection:[]});
       toast.success("Congratulations", {
         duration: 3000,
-        description: "Workspace is created",
+        description: "Collection is created",
       });
       setIsModalOpen(false);
     } catch (error) {
@@ -48,21 +47,21 @@ const CreateWorkspace = ({
 
   return (
     <Modal
-      title="Add New Workspace"
-      description="Create a new workspace to organize your projects"
+      title="Add New Collection"
+      description="Create a new Collection to organize your requests"
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
       onSubmit={handleSubmit}
-      submitText={pending ? "Creating Workspace..." : "Create Workspace"}
+      submitText={isPending ? "Creating..." : "Create Collection"}
       submitVariant="default"
-      modalstate={pending}
+      modalstate={isPending}
     >
       <div className="space-y-4">
         <Input
           className="w-full p-2 border rounded"
-          placeholder="Workspace name..."
+          placeholder="Collection name..."
           value={name}
-          disabled={pending}
+          disabled={isPending}
           onChange={(e) => setName(e.target.value)}
         />
         {err && <span className=" text-destructive">{err}</span>}
@@ -71,4 +70,4 @@ const CreateWorkspace = ({
   );
 };
 
-export default CreateWorkspace;
+export default CreateCollectionModal;
