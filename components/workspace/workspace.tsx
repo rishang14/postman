@@ -54,13 +54,13 @@ const Workspace = ({ allworkspaces }: prop) => {
   }, [extendedWorkspaces]);
 
   useEffect(() => {
-    if (allworkspaces && allworkspaces.length > 0 && openedWorkspace === null) {
+    if (allworkspaces && allworkspaces.length > 0) {
       setOpenwokrspace(allworkspaces[0]);
       router.push(
         pathname + "?" + createQueryString("wid", allworkspaces[0].id)
       );
     }
-  }, []);
+  }, [allworkspaces]);
 
   if (!allworkspaces) {
     return <Loader className="animate-spin text-indigo-400" size={40} />;
@@ -71,7 +71,6 @@ const Workspace = ({ allworkspaces }: prop) => {
       <div className=" font-semibold text-indigo-400">No workspaces found</div>
     );
   }
-  console.log(workspaces, "spacess available");
   return (
     <>
       <Hint label="Change Workspace">
@@ -79,7 +78,6 @@ const Workspace = ({ allworkspaces }: prop) => {
           value={openedWorkspace?.id}
           onValueChange={(id) => {
             const selectedone = workspaces.find((i) => i.id === id);
-            console.log(selectedone, "selectedone");
             if (selectedone) {
               setOpenwokrspace(selectedone);
               router.push(

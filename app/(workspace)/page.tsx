@@ -6,10 +6,9 @@ const Homepage = async ({ searchParams }: any) => {
   const { wid } = await searchParams;
   
 
-  if(!wid)return;  
-
-  const collections= await getCollections(wid); 
+  if(!wid)return;   
   
+  const collections= await getCollections(wid);  
   return <CollectionPage collection={collections} />;
 };
 

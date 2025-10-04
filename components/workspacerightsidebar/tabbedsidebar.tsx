@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { useWorkspace } from "@/lib/store/workspace.store";
 import CreateCollectionModal from "./createcollectionmodal";
+import Collectionfolder from "./collectionsfolder";
+import { useSearchParams } from "next/navigation";
 
 const sidebarItems = [
   { icon: Archive, label: "Collections" },
@@ -25,16 +27,13 @@ const sidebarItems = [
 const Tabbedsidebar = () => {
   const [activeTab, setActiveTab] = useState("Collections");
   const { openedWorkspace, workspaces } = useWorkspace();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const collections = useMemo(() => {
-    return (
-      workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || []
-    );
-  }, [openedWorkspace, workspaces]);
-
-  console.log(collections, "collections");
-
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const wid=useSearchParams().get('wid')
+  const collections = useMemo(() => { 
+    return workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || [];
+  }, [openedWorkspace?.id,wid,workspaces]);
+ 
+  console.log(workspaces , "workspaces here")
   const renderTabContent = () => {
     switch (activeTab) {
       case "Collections":
@@ -43,7 +42,7 @@ const Tabbedsidebar = () => {
             <div className="flex items-center justify-between p-4 border-b border-zinc-800">
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-zinc-400">
-                  {/* {currentWorkspace?.name} */}
+                  {openedWorkspace?.name}
                 </span>
                 <span className="text-zinc-600">&rsaquo;</span>
                 <span className="text-sm font-medium">Collections</span>
@@ -67,22 +66,21 @@ const Tabbedsidebar = () => {
 
             <div className="p-4 border-b border-zinc-800">
               <Button
-                variant="ghost" 
+                variant="ghost"
                 className=" cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsModalOpen(true)}
               >
                 <Plus className="w-4 h-4" />
                 <span className="text-sm font-medium">New</span>
               </Button>
             </div>
-
             {collections && collections.length > 0 ? (
               collections.map((collection) => (
                 <div
                   className="flex flex-col justify-start items-start p-3 border-b border-zinc-800 w-full"
                   key={collection.id}
                 >
-                  {/* <CollectionFolder collection={collection} /> */}
+                  <Collectionfolder collection={collection} />
                 </div>
               ))
             ) : (
@@ -97,6 +95,7 @@ const Tabbedsidebar = () => {
         );
     }
   };
+
   return (
     <>
       <div className="flex h-screen bg-zinc-900">

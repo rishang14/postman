@@ -14,7 +14,6 @@ const CreateWorkspace = ({
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
 }) => {
-  console.log("i am childe component of the workspace ");
   const [name, setName] = useState("");
   const [pending, setIspending] = useState<boolean>(false);
   const { addworkspace } = useWorkspace();

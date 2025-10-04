@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { useWorkspace } from "@/lib/store/workspace.store";
+import { createCollection } from "@/action/action";
 
 const CreateCollectionModal= ({
   isModalOpen,
@@ -26,9 +27,10 @@ const CreateCollectionModal= ({
     }
     setIspending(true);
     try {
-      let newWorkspaceName = name.trim().charAt(0).toUpperCase() + name.trim().substring(1).toLowerCase();
-        const createdCollection = await ({ name: newWorkspaceName });
-      //   addworkspace({...createdspace as workspacewithmember , collection:[]});
+      let newCollectionName= name.trim().charAt(0).toUpperCase() + name.trim().substring(1).toLowerCase(); 
+      if(!openedWorkspace) return;
+        const createdCollection = await createCollection(openedWorkspace?.id,newCollectionName);
+        addCollcetion(openedWorkspace?.id , createdCollection)
       toast.success("Congratulations", {
         duration: 3000,
         description: "Collection is created",

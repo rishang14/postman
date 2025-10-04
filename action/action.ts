@@ -107,11 +107,11 @@ export const getWorkspaceDeatils = async (id: string) => {
   }
 };
 
-export const ceateCollection = async (workspaceId: string, name: string) => {
+export const createCollection = async (workspaceId: string, collectionname: string) => {
   try {
     const createdCollection = await prisma.collection.create({
       data: {
-        name,
+        name:collectionname,
         workspace: {
           connect: {
             id: workspaceId,
@@ -127,12 +127,13 @@ export const ceateCollection = async (workspaceId: string, name: string) => {
   }
 };
 
-export const getCollections = async (workspaceId: string) => {
-  return prisma.collection.findMany({
+export const getCollections = async (workspaceId: string) => { 
+  const collection= await  prisma.collection.findMany({
     where: {
       workspaceId,
     },
-  });
+  }); 
+  return collection
 };
 
 export const deleteCollcetion = async (collectionId: string) => {

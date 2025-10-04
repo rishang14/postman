@@ -21,7 +21,6 @@ type workspacetype = {
   updateworkspace: (workspaceid: string, values: Partial<Workspace>) => void;
   addCollcetion: (
     workspaceid: string,
-    collectionId: string,
     data: Collection
   ) => void;
   updateCollection: (
@@ -64,7 +63,7 @@ export const useWorkspace = create<workspacetype>()(
           w.id === workspaceid
             ? {
                 ...w,
-                collection: { ...w.collection, data },
+                collection: [...w.collection , data],
               }
             : w
         ),
