@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Hint } from "../ui/hint";
 import {
   Select,
@@ -10,13 +10,14 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import { Loader, Plus, User } from "lucide-react";
-import { Workspace as WorkSpacetype } from "@prisma/client";
-import { useWorkspace } from "@/lib/store/workspace.store";
+import { useWorkspace, workspacewithmember } from "@/lib/store/workspace.store";
 import { Separator } from "../ui/separator";
 import CreateWorkspace from "./createworkspace";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type prop = {
-  allworkspaces: WorkSpacetype[];
+  allworkspaces: workspacewithmember[];
 };
 
 const Workspace = ({ allworkspaces }: prop) => {
@@ -28,9 +29,22 @@ const Workspace = ({ allworkspaces }: prop) => {
     setworkspace,
   } = useWorkspace();
   const [openCreateModel, setopenCreateModel] = useState<boolean>(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchparams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchparams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchparams]
+  );
 
   const extendedWorkspaces = useMemo(() => {
-    return allworkspaces.map((w) => ({ ...w, members: [], collection: [] }));
+    return allworkspaces.map((w) => ({ ...w, collection: [] }));
   }, []);
 
   useEffect(() => {
@@ -42,6 +56,9 @@ const Workspace = ({ allworkspaces }: prop) => {
   useEffect(() => {
     if (allworkspaces && allworkspaces.length > 0 && openedWorkspace === null) {
       setOpenwokrspace(allworkspaces[0]);
+      router.push(
+        pathname + "?" + createQueryString("wid", allworkspaces[0].id)
+      );
     }
   }, []);
 
@@ -54,6 +71,7 @@ const Workspace = ({ allworkspaces }: prop) => {
       <div className=" font-semibold text-indigo-400">No workspaces found</div>
     );
   }
+  console.log(workspaces, "spacess available");
   return (
     <>
       <Hint label="Change Workspace">
@@ -62,7 +80,12 @@ const Workspace = ({ allworkspaces }: prop) => {
           onValueChange={(id) => {
             const selectedone = workspaces.find((i) => i.id === id);
             console.log(selectedone, "selectedone");
-            if (selectedone) setOpenwokrspace(selectedone);
+            if (selectedone) {
+              setOpenwokrspace(selectedone);
+              router.push(
+                pathname + "?" + createQueryString("wid", selectedone.id)
+              );
+            }
           }}
         >
           <SelectTrigger className="cursor-pointer">

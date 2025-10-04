@@ -14,11 +14,11 @@ export const getUserDeatils = async () => {
   return session.user;
 };
 
-export const generateworkspaceIfNotExist = async () => {
+export const generateworkspaceIfNotExist = async ():Promise<workspacewithmember[] | []> => {
   const userDeatails = await getUserDeatils();
 
   if (!userDeatails) {
-    return;
+    return [];
   }
   const workspace = await prisma.workspace.findMany({
     where: {

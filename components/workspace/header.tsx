@@ -1,21 +1,17 @@
 "use client";
 import { Unplug, Search } from "lucide-react";
 import React from "react";
-// import SearchBar from './search-bar'
-// import UserButton from '@/modules/authentication/components/user-button'
-
-// import InviteMember from './invite-member'
-// import WorkSpace from './workspace'
 import { User } from "better-auth";
 import Profile from "../globals/profilecard";
 import Searchbar from "./searchbar";
 import Invitemember from "./invitemember";
 import Workspace from "./workspace";
-import { Workspace as WorkSpacetype } from "@prisma/client";
+import { workspacewithmember } from "@/lib/store/workspace.store";
+// import { Workspace as WorkSpacetype } from "@prisma/client";
 
 interface Props {
   user: User;
- workspace: WorkSpacetype[]
+ workspace: workspacewithmember[]
 }
 
 const Header = ({ user,workspace }: Props) => {
