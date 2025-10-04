@@ -9,3 +9,4 @@ export { AccountModelSchema } from './Account.pure';
 export { VerificationModelSchema } from './Verification.pure';
 export { WorkspaceModelSchema } from './Workspace.pure';
 export { WorkspaceMemberModelSchema } from './WorkspaceMember.pure';
+export { CollectionModelSchema } from './Collection.pure';

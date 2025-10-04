@@ -16,6 +16,7 @@ export const WorkspaceFindFirstOrThrowSelectSchema: z.ZodType<Prisma.WorkspaceSe
     ownerId: z.boolean().optional(),
     owner: z.boolean().optional(),
     members: z.boolean().optional(),
+    colllection: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     _count: z.boolean().optional()
@@ -28,6 +29,7 @@ export const WorkspaceFindFirstOrThrowSelectZodSchema = z.object({
     ownerId: z.boolean().optional(),
     owner: z.boolean().optional(),
     members: z.boolean().optional(),
+    colllection: z.boolean().optional(),
     createdAt: z.boolean().optional(),
     updatedAt: z.boolean().optional(),
     _count: z.boolean().optional()

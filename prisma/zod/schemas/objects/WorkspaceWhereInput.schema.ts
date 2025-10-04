@@ -5,7 +5,8 @@ import { StringNullableFilterObjectSchema as StringNullableFilterObjectSchema } 
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { UserScalarRelationFilterObjectSchema as UserScalarRelationFilterObjectSchema } from './UserScalarRelationFilter.schema';
 import { UserWhereInputObjectSchema as UserWhereInputObjectSchema } from './UserWhereInput.schema';
-import { WorkspaceMemberListRelationFilterObjectSchema as WorkspaceMemberListRelationFilterObjectSchema } from './WorkspaceMemberListRelationFilter.schema'
+import { WorkspaceMemberListRelationFilterObjectSchema as WorkspaceMemberListRelationFilterObjectSchema } from './WorkspaceMemberListRelationFilter.schema';
+import { CollectionListRelationFilterObjectSchema as CollectionListRelationFilterObjectSchema } from './CollectionListRelationFilter.schema'
 
 const workspacewhereinputSchema = z.object({
   AND: z.union([z.lazy(() => WorkspaceWhereInputObjectSchema), z.lazy(() => WorkspaceWhereInputObjectSchema).array()]).optional(),
@@ -18,7 +19,8 @@ const workspacewhereinputSchema = z.object({
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
   updatedAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
   owner: z.union([z.lazy(() => UserScalarRelationFilterObjectSchema), z.lazy(() => UserWhereInputObjectSchema)]).optional(),
-  members: z.lazy(() => WorkspaceMemberListRelationFilterObjectSchema).optional()
+  members: z.lazy(() => WorkspaceMemberListRelationFilterObjectSchema).optional(),
+  colllection: z.lazy(() => CollectionListRelationFilterObjectSchema).optional()
 }).strict();
 export const WorkspaceWhereInputObjectSchema: z.ZodType<Prisma.WorkspaceWhereInput> = workspacewhereinputSchema as unknown as z.ZodType<Prisma.WorkspaceWhereInput>;
 export const WorkspaceWhereInputObjectZodSchema = workspacewhereinputSchema;

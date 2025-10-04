@@ -3,7 +3,8 @@ import type { Prisma } from '@prisma/client';
 import { StringFieldUpdateOperationsInputObjectSchema as StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema as NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { UserUpdateOneRequiredWithoutWorkapceNestedInputObjectSchema as UserUpdateOneRequiredWithoutWorkapceNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutWorkapceNestedInput.schema'
+import { UserUpdateOneRequiredWithoutWorkapceNestedInputObjectSchema as UserUpdateOneRequiredWithoutWorkapceNestedInputObjectSchema } from './UserUpdateOneRequiredWithoutWorkapceNestedInput.schema';
+import { CollectionUpdateManyWithoutWorkspaceNestedInputObjectSchema as CollectionUpdateManyWithoutWorkspaceNestedInputObjectSchema } from './CollectionUpdateManyWithoutWorkspaceNestedInput.schema'
 
 const makeSchema = () => z.object({
   id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
@@ -11,7 +12,8 @@ const makeSchema = () => z.object({
   description: z.union([z.string(), z.lazy(() => NullableStringFieldUpdateOperationsInputObjectSchema)]).optional().nullable(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  owner: z.lazy(() => UserUpdateOneRequiredWithoutWorkapceNestedInputObjectSchema).optional()
+  owner: z.lazy(() => UserUpdateOneRequiredWithoutWorkapceNestedInputObjectSchema).optional(),
+  colllection: z.lazy(() => CollectionUpdateManyWithoutWorkspaceNestedInputObjectSchema).optional()
 }).strict();
 export const WorkspaceUpdateWithoutMembersInputObjectSchema: z.ZodType<Prisma.WorkspaceUpdateWithoutMembersInput> = makeSchema() as unknown as z.ZodType<Prisma.WorkspaceUpdateWithoutMembersInput>;
 export const WorkspaceUpdateWithoutMembersInputObjectZodSchema = makeSchema();

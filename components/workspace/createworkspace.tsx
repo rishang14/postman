@@ -1,8 +1,6 @@
 "use client";
 import Modal from "../globals/modals";
-import React, {
-  useState,
-} from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { createWorkspace } from "@/action/action";
@@ -27,14 +25,16 @@ const CreateWorkspace = ({
       return;
     }
     setIspending(true);
-    try {  
-      let newWorkspaceName=  name.charAt(0).toUpperCase() + name.substring(1).toLowerCase(); 
-      const createdspace = await createWorkspace({ name:newWorkspaceName });
+    try {
+      let newWorkspaceName =
+        name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
+      const createdspace = await createWorkspace({ name: newWorkspaceName });
       addworkspace(createdspace);
       toast.success("Congratulations", {
         duration: 3000,
         description: "Workspace is created",
       });
+      setIsModalOpen(false);
     } catch (error) {
       toast.error("Server Error", {
         duration: 3000,
@@ -55,6 +55,7 @@ const CreateWorkspace = ({
       onSubmit={handleSubmit}
       submitText={pending ? "Creating Workspace..." : "Create Workspace"}
       submitVariant="default"
+      modalstate={pending}
     >
       <div className="space-y-4">
         <Input

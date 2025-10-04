@@ -76,3 +76,16 @@ export { WorkspaceMemberDeleteManyResultSchema } from './WorkspaceMemberDeleteMa
 export { WorkspaceMemberAggregateResultSchema } from './WorkspaceMemberAggregateResult.schema';
 export { WorkspaceMemberGroupByResultSchema } from './WorkspaceMemberGroupByResult.schema';
 export { WorkspaceMemberCountResultSchema } from './WorkspaceMemberCountResult.schema';
+export { CollectionFindUniqueResultSchema } from './CollectionFindUniqueResult.schema';
+export { CollectionFindFirstResultSchema } from './CollectionFindFirstResult.schema';
+export { CollectionFindManyResultSchema } from './CollectionFindManyResult.schema';
+export { CollectionCreateResultSchema } from './CollectionCreateResult.schema';
+export { CollectionCreateManyResultSchema } from './CollectionCreateManyResult.schema';
+export { CollectionUpdateResultSchema } from './CollectionUpdateResult.schema';
+export { CollectionUpdateManyResultSchema } from './CollectionUpdateManyResult.schema';
+export { CollectionUpsertResultSchema } from './CollectionUpsertResult.schema';
+export { CollectionDeleteResultSchema } from './CollectionDeleteResult.schema';
+export { CollectionDeleteManyResultSchema } from './CollectionDeleteManyResult.schema';
+export { CollectionAggregateResultSchema } from './CollectionAggregateResult.schema';
+export { CollectionGroupByResultSchema } from './CollectionGroupByResult.schema';
+export { CollectionCountResultSchema } from './CollectionCountResult.schema';

@@ -9,3 +9,4 @@ export { AccountInputSchema } from './Account.input';
 export { VerificationInputSchema } from './Verification.input';
 export { WorkspaceInputSchema } from './Workspace.input';
 export { WorkspaceMemberInputSchema } from './WorkspaceMember.input';
+export { CollectionInputSchema } from './Collection.input';

@@ -1,0 +1,14 @@
+import * as z from 'zod';
+import type { Prisma } from '@prisma/client';
+import { WorkspaceCreateWithoutColllectionInputObjectSchema as WorkspaceCreateWithoutColllectionInputObjectSchema } from './WorkspaceCreateWithoutColllectionInput.schema';
+import { WorkspaceUncheckedCreateWithoutColllectionInputObjectSchema as WorkspaceUncheckedCreateWithoutColllectionInputObjectSchema } from './WorkspaceUncheckedCreateWithoutColllectionInput.schema';
+import { WorkspaceCreateOrConnectWithoutColllectionInputObjectSchema as WorkspaceCreateOrConnectWithoutColllectionInputObjectSchema } from './WorkspaceCreateOrConnectWithoutColllectionInput.schema';
+import { WorkspaceWhereUniqueInputObjectSchema as WorkspaceWhereUniqueInputObjectSchema } from './WorkspaceWhereUniqueInput.schema'
+
+const makeSchema = () => z.object({
+  create: z.union([z.lazy(() => WorkspaceCreateWithoutColllectionInputObjectSchema), z.lazy(() => WorkspaceUncheckedCreateWithoutColllectionInputObjectSchema)]).optional(),
+  connectOrCreate: z.lazy(() => WorkspaceCreateOrConnectWithoutColllectionInputObjectSchema).optional(),
+  connect: z.lazy(() => WorkspaceWhereUniqueInputObjectSchema).optional()
+}).strict();
+export const WorkspaceCreateNestedOneWithoutColllectionInputObjectSchema: z.ZodType<Prisma.WorkspaceCreateNestedOneWithoutColllectionInput> = makeSchema() as unknown as z.ZodType<Prisma.WorkspaceCreateNestedOneWithoutColllectionInput>;
+export const WorkspaceCreateNestedOneWithoutColllectionInputObjectZodSchema = makeSchema();

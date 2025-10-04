@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import type { Prisma } from '@prisma/client';
-import { WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema as WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema } from './WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput.schema'
+import { WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema as WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema } from './WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput.schema';
+import { CollectionUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema as CollectionUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema } from './CollectionUncheckedCreateNestedManyWithoutWorkspaceInput.schema'
 
 const makeSchema = () => z.object({
   id: z.string().optional(),
@@ -8,7 +9,8 @@ const makeSchema = () => z.object({
   description: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
-  members: z.lazy(() => WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema).optional()
+  members: z.lazy(() => WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema).optional(),
+  colllection: z.lazy(() => CollectionUncheckedCreateNestedManyWithoutWorkspaceInputObjectSchema).optional()
 }).strict();
 export const WorkspaceUncheckedCreateWithoutOwnerInputObjectSchema: z.ZodType<Prisma.WorkspaceUncheckedCreateWithoutOwnerInput> = makeSchema() as unknown as z.ZodType<Prisma.WorkspaceUncheckedCreateWithoutOwnerInput>;
 export const WorkspaceUncheckedCreateWithoutOwnerInputObjectZodSchema = makeSchema();

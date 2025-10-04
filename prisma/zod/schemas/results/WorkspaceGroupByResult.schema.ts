@@ -13,6 +13,7 @@ export const WorkspaceGroupByResultSchema = z.array(z.object({
     ownerId: z.number(),
     owner: z.number(),
     members: z.number(),
+    colllection: z.number(),
     createdAt: z.number(),
     updatedAt: z.number()
   }).optional(),

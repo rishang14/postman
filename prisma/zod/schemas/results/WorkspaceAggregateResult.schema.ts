@@ -6,6 +6,7 @@ export const WorkspaceAggregateResultSchema = z.object({  _count: z.object({
     ownerId: z.number(),
     owner: z.number(),
     members: z.number(),
+    colllection: z.number(),
     createdAt: z.number(),
     updatedAt: z.number()
   }).optional(),

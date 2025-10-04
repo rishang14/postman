@@ -6,6 +6,7 @@ export const WorkspaceFindUniqueResultSchema = z.nullable(z.object({
   ownerId: z.string(),
   owner: z.unknown(),
   members: z.array(z.unknown()),
+  colllection: z.array(z.unknown()),
   createdAt: z.date(),
   updatedAt: z.date()
 }));

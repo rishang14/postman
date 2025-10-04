@@ -11,7 +11,8 @@ import { Button } from '@/components/ui/button'
 
 interface ModalProps {
   children: React.ReactNode
-  title: string
+  title: string 
+  modalstate?:boolean
   description?: string
   isOpen: boolean
   onClose: () => void
@@ -30,7 +31,8 @@ const Modal: React.FC<ModalProps> = ({
   description,
   isOpen,
   onClose,
-  onSubmit,
+  onSubmit, 
+  modalstate,
   submitText = 'Submit',
   cancelText = 'Cancel',
   showFooter = true,
@@ -71,7 +73,8 @@ const Modal: React.FC<ModalProps> = ({
             {onSubmit && (
               <Button
                 className='text-white'
-                onClick={handleSubmit}
+                onClick={handleSubmit} 
+                disabled={modalstate}
               >
                 {submitText}
               </Button>
