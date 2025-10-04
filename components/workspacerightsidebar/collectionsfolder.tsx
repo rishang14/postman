@@ -8,7 +8,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import React, { useState } from "react";
-import { Collection} from "@prisma/client";
+import { Collection } from "@prisma/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,21 +20,17 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import DeleteCollectionModal from "./deletecollectionmodal";
+import EditCollectionModal from "./eidtcollectionmodal";
 
 // import EditCollectionModal from "./edit-collection";
 // import DeleteCollectionModal from "./delete-collection";
 
-
-
-
-
-const Collectionfolder = ({ collection }:{collection:Collection}) => {
+const Collectionfolder = ({ collection }: { collection: Collection }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddRequestOpen, setIsAddRequestOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
-
 
   // const requestColorMap: Record<REST_METHOD, string> = {
   //   [REST_METHOD.GET]: "text-green-500",
@@ -44,7 +40,7 @@ const Collectionfolder = ({ collection }:{collection:Collection}) => {
   //   [REST_METHOD.PATCH]: "text-orange-500",
   // };
 
-  const hasRequests =true;
+  const hasRequests = true;
 
   return (
     <>
@@ -217,19 +213,21 @@ const Collectionfolder = ({ collection }:{collection:Collection}) => {
         </div>
       </Collapsible>
 
-      {/* Modals */}
-      {/* <EditCollectionModal
+      <DeleteCollectionModal
+        isModalOpen={isDeleteOpen}
+        setIsModalOpen={setIsDeleteOpen}
+        collectionId={collection.id}
+      />
+      <EditCollectionModal
         isModalOpen={isEditOpen}
         setIsModalOpen={setIsEditOpen}
         collectionId={collection.id}
         initialName={collection.name}
       />
 
-      <DeleteCollectionModal
-        isModalOpen={isDeleteOpen}
-        setIsModalOpen={setIsDeleteOpen}
-        collectionId={collection.id}
-      />
+      {/* Modals 
+
+   
 
       <AddRequestCollectionModal
         isModalOpen={isAddRequestOpen}
