@@ -10,6 +10,7 @@ const makeSchema = () => z.object({
   url: SortOrderSchema.optional(),
   parameters: SortOrderSchema.optional(),
   headers: SortOrderSchema.optional(),
+  saved: SortOrderSchema.optional(),
   body: SortOrderSchema.optional(),
   response: SortOrderSchema.optional(),
   createdAt: SortOrderSchema.optional(),

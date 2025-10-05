@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/collapsible";
 import DeleteCollectionModal from "./deletecollectionmodal";
 import EditCollectionModal from "./eidtcollectionmodal";
+import AddRequestCollectionModal from "./addrequestmodal";
 
 // import EditCollectionModal from "./edit-collection";
 // import DeleteCollectionModal from "./delete-collection";
@@ -213,6 +214,13 @@ const Collectionfolder = ({ collection }: { collection: Collection }) => {
         </div>
       </Collapsible>
 
+      <AddRequestCollectionModal
+        isModalOpen={isAddRequestOpen}
+        setIsModalOpen={setIsAddRequestOpen}
+        collectionId={collection.id}
+        initialName="Untitled Request"
+      />
+
       <DeleteCollectionModal
         isModalOpen={isDeleteOpen}
         setIsModalOpen={setIsDeleteOpen}
@@ -224,17 +232,6 @@ const Collectionfolder = ({ collection }: { collection: Collection }) => {
         collectionId={collection.id}
         initialName={collection.name}
       />
-
-      {/* Modals 
-
-   
-
-      <AddRequestCollectionModal
-        isModalOpen={isAddRequestOpen}
-        setIsModalOpen={setIsAddRequestOpen}
-        collectionId={collection.id}
-        initialName="Untitled Request"
-      /> */}
     </>
   );
 };

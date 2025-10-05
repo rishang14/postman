@@ -8,18 +8,9 @@ import {
   ResizablePanel,
 } from "../ui/resizable";
 import Tabbedsidebar from "./tabbedsidebar";
-import { useSearchParams } from "next/navigation";
 
 const CollectionPage = ({ collection }: { collection: Collection[] }) => {
-  const { openedWorkspace,setCollection, workspaces } = useWorkspace();
-  const wid = useSearchParams().get("wid");
-  useEffect(() => {
-    if (wid   && openedWorkspace?.id){
-      setCollection(wid as string, collection);
-    }
-  }, [wid,openedWorkspace?.id]);
-
-
+ 
   return (
     <>
       <ResizablePanelGroup direction="horizontal">
@@ -34,7 +25,7 @@ const CollectionPage = ({ collection }: { collection: Collection[] }) => {
           className="flex"
         >
           <div className="flex-1">
-            <Tabbedsidebar />
+            <Tabbedsidebar collection={collection} />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

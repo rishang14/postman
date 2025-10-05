@@ -10,6 +10,7 @@ const makeSchema = () => z.object({
   url: z.literal(true).optional(),
   parameters: z.literal(true).optional(),
   headers: z.literal(true).optional(),
+  saved: z.literal(true).optional(),
   body: z.literal(true).optional(),
   response: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),

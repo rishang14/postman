@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import EmptyCollections from "./emptycollection";
 import { Button } from "../ui/button";
 import {
@@ -16,7 +16,7 @@ import { useWorkspace } from "@/lib/store/workspace.store";
 import CreateCollectionModal from "./createcollectionmodal";
 import Collectionfolder from "./collectionsfolder";
 import { useSearchParams } from "next/navigation";
-
+import { Collection } from "@prisma/client";
 const sidebarItems = [
   { icon: Archive, label: "Collections" },
   { icon: Clock, label: "History" },
@@ -24,16 +24,23 @@ const sidebarItems = [
   { icon: Code, label: "Code" },
 ];
 
-const Tabbedsidebar = () => {
+const Tabbedsidebar = ({ collection }: { collection: Collection[] }) => {
   const [activeTab, setActiveTab] = useState("Collections");
-  const { openedWorkspace, workspaces } = useWorkspace();
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const wid=useSearchParams().get('wid')
-  const collections = useMemo(() => { 
-    return workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || [];
-  }, [openedWorkspace?.id,wid,workspaces]);
- 
-  console.log(workspaces , "workspaces here")
+  const { openedWorkspace, workspaces, setCollection } = useWorkspace();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const wid = useSearchParams().get("wid");
+
+  useEffect(() => {
+    if (openedWorkspace?.id && wid) {
+      setCollection(openedWorkspace?.id, collection);
+    }
+  }, [collection, openedWorkspace?.id, wid]);
+  const collections = useMemo(() => {
+    return (
+      workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || []
+    );
+  }, [openedWorkspace?.id, wid, workspaces]);
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "Collections":
@@ -114,7 +121,6 @@ const Tabbedsidebar = () => {
             </div>
           ))}
         </div>
-
         <div className="flex-1 bg-zinc-900 overflow-y-auto">
           {renderTabContent()}
         </div>

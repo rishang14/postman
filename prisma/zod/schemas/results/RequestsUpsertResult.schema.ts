@@ -8,6 +8,7 @@ export const RequestsUpsertResultSchema = z.object({
   url: z.string(),
   parameters: z.unknown().optional(),
   headers: z.unknown().optional(),
+  saved: z.boolean(),
   body: z.unknown().optional(),
   response: z.unknown().optional(),
   createdAt: z.date(),

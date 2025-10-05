@@ -8,6 +8,7 @@ const makeSchema = () => z.object({
   method: z.literal(true).optional(),
   collectionId: z.literal(true).optional(),
   url: z.literal(true).optional(),
+  saved: z.literal(true).optional(),
   createdAt: z.literal(true).optional(),
   updatedAt: z.literal(true).optional()
 }).strict();

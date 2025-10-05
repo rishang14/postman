@@ -4,6 +4,7 @@ import { StringFilterObjectSchema as StringFilterObjectSchema } from './StringFi
 import { EnumREST_METHODFilterObjectSchema as EnumREST_METHODFilterObjectSchema } from './EnumREST_METHODFilter.schema';
 import { REST_METHODSchema } from '../enums/REST_METHOD.schema';
 import { JsonNullableFilterObjectSchema as JsonNullableFilterObjectSchema } from './JsonNullableFilter.schema';
+import { BoolFilterObjectSchema as BoolFilterObjectSchema } from './BoolFilter.schema';
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema'
 
 const requestsscalarwhereinputSchema = z.object({
@@ -17,6 +18,7 @@ const requestsscalarwhereinputSchema = z.object({
   url: z.union([z.lazy(() => StringFilterObjectSchema), z.string()]).optional(),
   parameters: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   headers: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
+  saved: z.union([z.lazy(() => BoolFilterObjectSchema), z.boolean()]).optional(),
   body: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   response: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),

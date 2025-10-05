@@ -131,7 +131,7 @@ model Requests {
   url          String
   parameters   Json?
   headers      Json?
-
+  saved        Boolean @default(false)
   body      Json?
   response  Json?
   createdAt DateTime @default(now())

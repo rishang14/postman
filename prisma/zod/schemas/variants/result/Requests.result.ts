@@ -11,6 +11,7 @@ export const RequestsResultSchema = z.object({
     url: z.string(),
     parameters: z.unknown().nullable(),
     headers: z.unknown().nullable(),
+    saved: z.boolean(),
     body: z.unknown().nullable(),
     response: z.unknown().nullable(),
     createdAt: z.date(),

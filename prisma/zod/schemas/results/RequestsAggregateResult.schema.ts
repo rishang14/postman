@@ -8,6 +8,7 @@ export const RequestsAggregateResultSchema = z.object({  _count: z.object({
     url: z.number(),
     parameters: z.number(),
     headers: z.number(),
+    saved: z.number(),
     body: z.number(),
     response: z.number(),
     createdAt: z.number(),

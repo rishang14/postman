@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { workspacewithmember } from "@/lib/store/workspace.store";
-import { Collection, Workspace } from "@prisma/client";
+import { Collection, Requests, REST_METHOD, Workspace } from "@prisma/client";
 import { headers } from "next/headers";
 
 export const getUserDeatils = async () => {
@@ -154,3 +154,33 @@ export const updateCollection = async (values: Partial<Collection>) => {
     },
   });
 };
+
+
+export const getAllrequest =async(collectionId:string)=>{
+    return prisma.requests.findMany({
+      where:{
+        collectionId
+      }
+    })
+ }  
+
+ export const createRequest=async(values:Partial<Requests>)=>{
+  try {
+    const createdRequest= await prisma.requests.create({
+      data:{
+        collectionId:values.collectionId as string, 
+        name:values.name as string,  
+        method:values.method as REST_METHOD,  
+        url:values.url as string, 
+      }
+    })  
+
+    return createdRequest
+  } catch (error) { 
+    console.log(error,"error while creating the request")
+    throw new Error("Something went wrong while creating the request")
+  }
+ } 
+
+
+ 

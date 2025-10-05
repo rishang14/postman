@@ -11,6 +11,7 @@ const makeSchema = () => z.object({
   url: z.boolean().optional(),
   parameters: z.boolean().optional(),
   headers: z.boolean().optional(),
+  saved: z.boolean().optional(),
   body: z.boolean().optional(),
   response: z.boolean().optional(),
   createdAt: z.boolean().optional(),

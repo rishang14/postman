@@ -13,6 +13,7 @@ const makeSchema = () => z.object({
   url: z.string(),
   parameters: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   headers: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+  saved: z.boolean().optional(),
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.coerce.date().optional(),

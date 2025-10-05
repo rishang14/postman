@@ -4,6 +4,7 @@ import { StringFieldUpdateOperationsInputObjectSchema as StringFieldUpdateOperat
 import { REST_METHODSchema } from '../enums/REST_METHOD.schema';
 import { EnumREST_METHODFieldUpdateOperationsInputObjectSchema as EnumREST_METHODFieldUpdateOperationsInputObjectSchema } from './EnumREST_METHODFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
+import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
@@ -16,6 +17,7 @@ const makeSchema = () => z.object({
   url: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
   parameters: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   headers: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
+  saved: z.union([z.boolean(), z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema)]).optional(),
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),

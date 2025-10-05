@@ -11,6 +11,7 @@ export const RequestsInputSchema = z.object({
     url: z.string(),
     parameters: z.unknown().optional().nullable(),
     headers: z.unknown().optional().nullable(),
+    saved: z.boolean(),
     body: z.unknown().optional().nullable(),
     response: z.unknown().optional().nullable(),
     createdAt: z.date(),
