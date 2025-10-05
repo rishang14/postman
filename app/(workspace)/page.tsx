@@ -8,7 +8,8 @@ const Homepage = async ({ searchParams }: any) => {
 
   if(!wid)return;   
   
-  const collections= await getCollections(wid);  
+  const collections= await getCollections(wid);   
+  
   return <CollectionPage collection={collections} />;
 };
 

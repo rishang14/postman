@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { REST_METHOD } from "@prisma/client";
 import { Input } from "../ui/input";
+import { createRequest } from "@/action/action";
+import { useWorkspace } from "@/lib/store/workspace.store";
 
 const AddRequestCollectionModal = ({
   isModalOpen,
@@ -27,7 +29,12 @@ const AddRequestCollectionModal = ({
   const [url, setUrl] = useState("https://google.com");
   const [method, setMethod] = useState<REST_METHOD>(REST_METHOD.GET);
   const [name, setName] = useState(initialName);
+  const { addRequests, openedWorkspace } = useWorkspace();
   const [isPending, setIspending] = useState<boolean>(false);
+  const [err, setErr] = useState({
+    name: "",
+    url: "",
+  });
 
   const requestColorMap: Record<REST_METHOD, string> = {
     [REST_METHOD.GET]: "text-green-500",
@@ -38,23 +45,52 @@ const AddRequestCollectionModal = ({
   };
 
   const handleSubmit = async () => {
-    if (!name.trim() || !url.trim()) {
-      toast.error("Please fill in all required fields");
+    if (name.trim().length < 3) {
+      setErr((prev) => ({
+        ...prev,
+        name: "min length of name should be greater than 3 ",
+      }));
       return;
     }
-
-    // try {
-    //   await mutateAsync({
-    //     url: url.trim(),
-    //     method,
-    //     name: name.trim(),
-    //   });
-    //   toast.success("Request added to collection successfully");
-    //   setIsModalOpen(false);
-    // } catch (err) {
-    //   toast.error("Failed to add request to collection");
-    //   console.error("Failed to add request to collection:", err);
-    // }
+    if (name.trim().length < 3) {
+      setErr((prev) => ({
+        ...prev,
+        name: "min length of name should be greater than 3 ",
+      }));
+      return;
+    }
+    if (url.trim().length < 5) {
+      setErr((prev) => ({
+        ...prev,
+        url: "min length of url should be greater than 5 ",
+      }));
+      return;
+    }
+    try {
+      let newWorkspaceName =
+        name.trim().charAt(0).toUpperCase() +
+        name.trim().substring(1).toLowerCase();
+      const createdRequest = await createRequest({
+        name: newWorkspaceName,
+        collectionId,
+        url,
+        method,
+      });
+      addRequests(openedWorkspace?.id as string, collectionId, createdRequest);
+      toast.success("Congratulations", {
+        duration: 3000,
+        description: "Request is created",
+      });
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Server Error", {
+        duration: 3000,
+        description: "Internal server Error",
+      });
+    } finally {
+      setIspending(false);
+      setName("");
+    }
   };
 
   return (
@@ -78,6 +114,7 @@ const AddRequestCollectionModal = ({
             onChange={(e) => setName(e.target.value)}
             required
           />
+          {err.name && <span className="text-destructive">{err.name}</span>}
         </div>
 
         <div>
@@ -117,6 +154,7 @@ const AddRequestCollectionModal = ({
             type="url"
             required
           />
+          {err.url && <span className="text-destructive">{err.url}</span>}
         </div>
       </div>
     </Modal>

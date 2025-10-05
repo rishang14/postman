@@ -26,7 +26,8 @@ const sidebarItems = [
 
 const Tabbedsidebar = ({ collection }: { collection: Collection[] }) => {
   const [activeTab, setActiveTab] = useState("Collections");
-  const { openedWorkspace, workspaces, setCollection } = useWorkspace();
+  const { openedWorkspace, workspaces, setCollection, openedCollection } =
+    useWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const wid = useSearchParams().get("wid");
 
@@ -40,6 +41,18 @@ const Tabbedsidebar = ({ collection }: { collection: Collection[] }) => {
       workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || []
     );
   }, [openedWorkspace?.id, wid, workspaces]);
+
+  console.log(workspaces, "workspaces details ");
+
+  // const Requests = useMemo(() => {
+  //   return (
+  //     workspaces
+  //       .find((w) => w.id === openedWorkspace?.id)
+  //       ?.collection.find((c) => c.id === openedCollection?.id)?.request || []
+  //   );
+  // }, [openedWorkspace?.id, openedCollection?.id, wid, workspaces]); 
+  // console.log(openedCollection?.id,"collection") 
+  // console.log(Requests,"requestws");
 
   const renderTabContent = () => {
     switch (activeTab) {

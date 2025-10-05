@@ -28,8 +28,8 @@ const EditCollectionModal = ({
        setIspending(true);
        try { 
          let newWorkspaceName = name.trim().charAt(0).toUpperCase() + name.trim().substring(1).toLowerCase();
-         const createdspace = await updatecollection({ name: newWorkspaceName,id:collectionId }); 
-          updateCollection(openedWorkspace?.id as string,collectionId,createdspace)
+         const createdCollection = await updatecollection({ name: newWorkspaceName,id:collectionId }); 
+          updateCollection(openedWorkspace?.id as string,collectionId,{...createdCollection,request:[]})
          toast.success("Congratulations", {
            duration: 3000,
            description: "Collection is updated",
