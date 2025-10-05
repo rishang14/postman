@@ -14,8 +14,10 @@ export const CollectionFindFirstOrThrowSelectSchema: z.ZodType<Prisma.Collection
     name: z.boolean().optional(),
     workspaceId: z.boolean().optional(),
     workspace: z.boolean().optional(),
+    request: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    _count: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.CollectionSelect>;
 
 export const CollectionFindFirstOrThrowSelectZodSchema = z.object({
@@ -23,8 +25,10 @@ export const CollectionFindFirstOrThrowSelectZodSchema = z.object({
     name: z.boolean().optional(),
     workspaceId: z.boolean().optional(),
     workspace: z.boolean().optional(),
+    request: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    _count: z.boolean().optional()
   }).strict();
 
 export const CollectionFindFirstOrThrowSchema: z.ZodType<Prisma.CollectionFindFirstOrThrowArgs> = z.object({ select: CollectionFindFirstOrThrowSelectSchema.optional(), include: z.lazy(() => CollectionIncludeObjectSchema.optional()), orderBy: z.union([CollectionOrderByWithRelationInputObjectSchema, CollectionOrderByWithRelationInputObjectSchema.array()]).optional(), where: CollectionWhereInputObjectSchema.optional(), cursor: CollectionWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([CollectionScalarFieldEnumSchema, CollectionScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.CollectionFindFirstOrThrowArgs>;

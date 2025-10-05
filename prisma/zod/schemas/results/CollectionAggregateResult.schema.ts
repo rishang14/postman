@@ -4,6 +4,7 @@ export const CollectionAggregateResultSchema = z.object({  _count: z.object({
     name: z.number(),
     workspaceId: z.number(),
     workspace: z.number(),
+    request: z.number(),
     createdAt: z.number(),
     updatedAt: z.number()
   }).optional(),

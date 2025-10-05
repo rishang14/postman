@@ -4,6 +4,7 @@ export const CollectionFindFirstResultSchema = z.nullable(z.object({
   name: z.string(),
   workspaceId: z.string(),
   workspace: z.unknown(),
+  request: z.array(z.unknown()),
   createdAt: z.date(),
   updatedAt: z.date()
 }));

@@ -89,3 +89,16 @@ export { CollectionDeleteManyResultSchema } from './CollectionDeleteManyResult.s
 export { CollectionAggregateResultSchema } from './CollectionAggregateResult.schema';
 export { CollectionGroupByResultSchema } from './CollectionGroupByResult.schema';
 export { CollectionCountResultSchema } from './CollectionCountResult.schema';
+export { RequestsFindUniqueResultSchema } from './RequestsFindUniqueResult.schema';
+export { RequestsFindFirstResultSchema } from './RequestsFindFirstResult.schema';
+export { RequestsFindManyResultSchema } from './RequestsFindManyResult.schema';
+export { RequestsCreateResultSchema } from './RequestsCreateResult.schema';
+export { RequestsCreateManyResultSchema } from './RequestsCreateManyResult.schema';
+export { RequestsUpdateResultSchema } from './RequestsUpdateResult.schema';
+export { RequestsUpdateManyResultSchema } from './RequestsUpdateManyResult.schema';
+export { RequestsUpsertResultSchema } from './RequestsUpsertResult.schema';
+export { RequestsDeleteResultSchema } from './RequestsDeleteResult.schema';
+export { RequestsDeleteManyResultSchema } from './RequestsDeleteManyResult.schema';
+export { RequestsAggregateResultSchema } from './RequestsAggregateResult.schema';
+export { RequestsGroupByResultSchema } from './RequestsGroupByResult.schema';
+export { RequestsCountResultSchema } from './RequestsCountResult.schema';
