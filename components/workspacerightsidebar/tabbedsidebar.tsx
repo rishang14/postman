@@ -16,7 +16,9 @@ import { useWorkspace } from "@/lib/store/workspace.store";
 import CreateCollectionModal from "./createcollectionmodal";
 import Collectionfolder from "./collectionsfolder";
 import { useSearchParams } from "next/navigation";
-import { Collection } from "@prisma/client";
+import { Collection, Requests } from "@prisma/client";
+import { collectionpageprop } from "./collection";
+import { id } from "zod/v4/locales";
 const sidebarItems = [
   { icon: Archive, label: "Collections" },
   { icon: Clock, label: "History" },
@@ -24,10 +26,15 @@ const sidebarItems = [
   { icon: Code, label: "Code" },
 ];
 
-const Tabbedsidebar = ({ collection }: { collection: Collection[] }) => {
+const Tabbedsidebar = ({ collection, requestslist }: collectionpageprop) => {
   const [activeTab, setActiveTab] = useState("Collections");
-  const { openedWorkspace, workspaces, setCollection, openedCollection } =
-    useWorkspace();
+  const {
+    openedWorkspace,
+    workspaces,
+    setCollection,
+    openedCollection,
+    setRequests,
+  } = useWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const wid = useSearchParams().get("wid");
 
@@ -42,17 +49,30 @@ const Tabbedsidebar = ({ collection }: { collection: Collection[] }) => {
     );
   }, [openedWorkspace?.id, wid, workspaces]);
 
-  console.log(workspaces, "workspaces details ");
+  useEffect(() => {
+    if (!openedWorkspace?.id || !requestslist) return;
 
-  // const Requests = useMemo(() => {
-  //   return (
-  //     workspaces
-  //       .find((w) => w.id === openedWorkspace?.id)
-  //       ?.collection.find((c) => c.id === openedCollection?.id)?.request || []
-  //   );
-  // }, [openedWorkspace?.id, openedCollection?.id, wid, workspaces]); 
-  // console.log(openedCollection?.id,"collection") 
-  // console.log(Requests,"requestws");
+    for (const [id, reqList] of requestslist.entries()) {
+      setRequests(openedWorkspace.id, id, reqList);
+    }
+  }, [openedWorkspace?.id, requestslist]);
+
+  const getRequestsBycollectionId = useMemo(() => {
+    const map = new Map<string, Requests[] | []>();
+
+    if (!openedWorkspace?.id) return map;
+
+    const Currentworkspace = workspaces.find(
+      (w) => w.id === openedWorkspace.id
+    );
+    if (!Currentworkspace) return map;
+
+    for (const col of Currentworkspace.collection) {
+      map.set(col.id, col.request || []);
+    }
+
+    return map;
+  }, [openedWorkspace?.id, workspaces]);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -95,14 +115,18 @@ const Tabbedsidebar = ({ collection }: { collection: Collection[] }) => {
               </Button>
             </div>
             {collections && collections.length > 0 ? (
-              collections.map((collection) => (
-                <div
-                  className="flex flex-col justify-start items-start p-3 border-b border-zinc-800 w-full"
-                  key={collection.id}
-                >
-                  <Collectionfolder collection={collection} />
-                </div>
-              ))
+              collections.map((collection) => {
+                return (
+                  <div
+                    className="flex flex-col justify-start items-start p-3 border-b border-zinc-800 w-full"
+                    key={collection.id}
+                  >
+                    <Collectionfolder collection={collection}   
+                     requests= {getRequestsBycollectionId.get(collection.id) || []}
+                    />
+                  </div>
+                );
+              })
             ) : (
               <EmptyCollections />
             )}

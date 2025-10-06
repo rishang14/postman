@@ -29,7 +29,7 @@ const AddRequestCollectionModal = ({
   const [url, setUrl] = useState("https://google.com");
   const [method, setMethod] = useState<REST_METHOD>(REST_METHOD.GET);
   const [name, setName] = useState(initialName);
-  const { addRequests, openedWorkspace } = useWorkspace();
+  const { addRequests, openedWorkspace,workspaces } = useWorkspace();
   const [isPending, setIspending] = useState<boolean>(false);
   const [err, setErr] = useState({
     name: "",
@@ -75,12 +75,17 @@ const AddRequestCollectionModal = ({
         collectionId,
         url,
         method,
-      });
-      addRequests(openedWorkspace?.id as string, collectionId, createdRequest);
+      }); 
+      console.log(openedWorkspace?.id,"workspace id ") 
+      console.log(collectionId , "colledtion id ") 
+      console.log(createdRequest,"data") 
+      addRequests(openedWorkspace?.id as string, collectionId, createdRequest); 
+      console.log(workspaces,"workspaces now what is the issue request is adding or not ");
       toast.success("Congratulations", {
         duration: 3000,
         description: "Request is created",
       });
+      console.log(workspaces,"workspaces inside the add request s")
       setIsModalOpen(false);
     } catch (error) {
       toast.error("Server Error", {

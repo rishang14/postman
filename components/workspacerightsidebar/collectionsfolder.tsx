@@ -8,7 +8,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Collection, REST_METHOD } from "@prisma/client";
+import { Collection, Requests, REST_METHOD } from "@prisma/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,40 +37,19 @@ const requestColorMap: Record<REST_METHOD, string> = {
   [REST_METHOD.PATCH]: "text-orange-500",
 };
 
-const Collectionfolder = ({ collection }: { collection: Collection }) => {
+type prop = {
+  collection: Collection;
+  requests: Requests[] | [];
+};
+
+const Collectionfolder = ({ collection, requests }: prop) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddRequestOpen, setIsAddRequestOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const {
-    setOpendcollection,
-    openedCollection,
-    openedWorkspace,
-    workspaces,
-    setRequests,
-  } = useWorkspace();
+  const { setOpendcollection, openedCollection, openedWorkspace, workspaces } =
+    useWorkspace();
 
-  useEffect(() => {
-    if (collection) {
-      setOpendcollection(collection);
-    }
-  }, []);
-
-  const requests = useMemo(() => {
-    return (
-      workspaces
-        .find((w) => w.id === openedWorkspace?.id)
-        ?.collection.find((c) => c.id === openedCollection?.id)?.request || []
-    );
-  }, [openedWorkspace?.id, openedCollection?.id, workspaces]);
-
-
-  const handleGetallrequests = async () => {
-    setOpendcollection(collection);
-    if (requests.length > 0) return;
-    const allrequests = await getAllrequest(collection.id);
-    setRequests(openedWorkspace?.id as string, collection.id, allrequests);
-  };
   const hasRequests = requests.length;
 
   return (
@@ -83,34 +62,25 @@ const Collectionfolder = ({ collection }: { collection: Collection }) => {
         <div className="flex flex-col w-full">
           {/* Collection Header */}
           <div className="flex flex-row justify-between items-center p-2 flex-1 w-full hover:bg-zinc-900 rounded-md">
-            <CollapsibleTrigger
-              className="flex flex-row justify-start items-center space-x-2 flex-1"
-              onClick={handleGetallrequests}
-            >
+            <CollapsibleTrigger className="flex flex-row justify-start items-center space-x-2 flex-1">
               <div className="flex items-center space-x-1">
-                {hasRequests ? (
-                  isCollapsed ? (
-                    <ChevronDown className="w-4 h-4 text-zinc-400" />
-                  ) : (
-                    <ChevronRight className="w-4 h-4 text-zinc-400" />
-                  )
+                {isCollapsed ? (
+                  <ChevronDown className="w-4 h-4 text-zinc-400" />
                 ) : (
-                  <div className="w-4 h-4" /> // Spacer when no requests
+                  <ChevronRight className="w-4 h-4 text-zinc-400" />
                 )}
-                <Folder className="w-5 h-5 text-zinc-400" />
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium text-zinc-200 capitalize">
                   {collection.name}
                 </span>
-                {hasRequests && (
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-                    <span className="text-xs text-zinc-400">
-                      ({requests.length})
-                    </span>
-                  </div>
-                )}
+
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                  <span className="text-xs text-zinc-400">
+                    ({requests.length})
+                  </span>
+                </div>
               </div>
             </CollapsibleTrigger>
 

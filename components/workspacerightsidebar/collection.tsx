@@ -1,15 +1,20 @@
 "use client";
 import { useWorkspace } from "@/lib/store/workspace.store";
-import { Collection } from "@prisma/client";
+import { Collection, Requests } from "@prisma/client";
 import React, { useEffect } from "react";
 import {
   ResizableHandle,
   ResizablePanelGroup,
   ResizablePanel,
 } from "../ui/resizable";
-import Tabbedsidebar from "./tabbedsidebar";
+import Tabbedsidebar from "./tabbedsidebar"; 
 
-const CollectionPage = ({ collection }: { collection: Collection[] }) => {
+export type collectionpageprop={
+  collection:Collection[],
+  requestslist: Map<string,Requests[] | []>
+}
+
+const CollectionPage = ({collection,requestslist}:collectionpageprop) => {
  
   return (
     <>
@@ -25,7 +30,7 @@ const CollectionPage = ({ collection }: { collection: Collection[] }) => {
           className="flex"
         >
           <div className="flex-1">
-            <Tabbedsidebar collection={collection} />
+            <Tabbedsidebar collection={collection}  requestslist={requestslist}/>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

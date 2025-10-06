@@ -176,8 +176,7 @@ export const useWorkspace = create<workspacetype>()(
                   c.id === collecitonid
                     ? {
                         ...c,
-                        request: c.request,
-                        data,
+                         request: [...c.request , data],
                       }
                     : c
                 ),
