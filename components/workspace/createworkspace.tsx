@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { createWorkspace } from "@/action/action";
 import { useWorkspace, workspacewithmember } from "@/lib/store/workspace.store";
-import { Workspace } from "@prisma/client";
 
 const CreateWorkspace = ({
   isModalOpen,

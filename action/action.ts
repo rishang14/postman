@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { workspacewithmember } from "@/lib/store/workspace.store";
 import { Collection, Requests, REST_METHOD, Workspace } from "@prisma/client";
 import { headers } from "next/headers";
+import { da } from "zod/v4/locales";
 
 export const getUserDeatils = async () => {
   const session = await auth.api.getSession({
@@ -14,7 +15,9 @@ export const getUserDeatils = async () => {
   return session.user;
 };
 
-export const generateworkspaceIfNotExist = async ():Promise<workspacewithmember[] | []> => {
+export const generateworkspaceIfNotExist = async (): Promise<
+  workspacewithmember[] | []
+> => {
   const userDeatails = await getUserDeatils();
 
   if (!userDeatails) {
@@ -107,11 +110,14 @@ export const getWorkspaceDeatils = async (id: string) => {
   }
 };
 
-export const createCollection = async (workspaceId: string, collectionname: string) => {
+export const createCollection = async (
+  workspaceId: string,
+  collectionname: string
+) => {
   try {
     const createdCollection = await prisma.collection.create({
       data: {
-        name:collectionname,
+        name: collectionname,
         workspace: {
           connect: {
             id: workspaceId,
@@ -127,13 +133,13 @@ export const createCollection = async (workspaceId: string, collectionname: stri
   }
 };
 
-export const getCollections = async (workspaceId: string) => { 
-  const collection= await  prisma.collection.findMany({
+export const getCollections = async (workspaceId: string) => {
+  const collection = await prisma.collection.findMany({
     where: {
       workspaceId,
     },
-  }); 
-  return collection
+  });
+  return collection;
 };
 
 export const deleteCollcetion = async (collectionId: string) => {
@@ -155,32 +161,61 @@ export const updateCollection = async (values: Partial<Collection>) => {
   });
 };
 
+export const getAllrequest = async (collectionId: string) => {
+  return prisma.requests.findMany({
+    where: {
+      collectionId,
+    },
+  });
+};
 
-export const getAllrequest =async(collectionId:string)=>{
-    return prisma.requests.findMany({
-      where:{
-        collectionId
-      }
-    })
- }  
-
- export const createRequest=async(values:Partial<Requests>)=>{
+export const createRequest = async (values: Partial<Requests>) => {
   try {
-    const createdRequest= await prisma.requests.create({
-      data:{
-        collectionId:values.collectionId as string, 
-        name:values.name as string,  
-        method:values.method as REST_METHOD,  
-        url:values.url as string, 
-      }
-    })  
+    const createdRequest = await prisma.requests.create({
+      data: {
+        collectionId: values.collectionId as string,
+        name: values.name as string,
+        method: values.method as REST_METHOD,
+        url: values.url as string,
+      },
+    });
 
-    return createdRequest
-  } catch (error) { 
-    console.log(error,"error while creating the request")
-    throw new Error("Something went wrong while creating the request")
+    return createdRequest;
+  } catch (error) {
+    console.log(error, "error while creating the request");
+    throw new Error("Something went wrong while creating the request");
   }
- } 
+};
 
+export const updateRequest = async (values: Partial<Requests>) => {
+  try {
+    const updatedReq = await prisma.requests.update({
+      where: {
+        id: values.id as string,
+      },
+      data: {
+        name: values.name,
+        method: values.method,
+        url: values.url,
+        saved: values.saved,
+        collectionId: values.collectionId,
+        parameters: values.parameters ?? undefined,
+        headers: values.headers ?? undefined,
+        body: values.body ?? undefined,
+        response: values.response ?? undefined,
+      },
+    });
 
- 
+    return updatedReq;
+  } catch (error) {
+    throw new Error("Error while updating the request");
+  }
+};
+
+export const removeReq = async (reqid: string) => {
+  return prisma.requests.delete({
+    where: {
+      id: reqid,
+    },
+  });
+};

@@ -25,6 +25,10 @@ import EditCollectionModal from "./eidtcollectionmodal";
 import AddRequestCollectionModal from "./addrequestmodal";
 import { useWorkspace } from "@/lib/store/workspace.store";
 import { getAllrequest } from "@/action/action";
+import { Button } from "../ui/button";
+import { tr } from "zod/v4/locales";
+import EditReqEditModal from "./editrequestmodel";
+import DeleteReqModal from "./deleteRequest";
 
 // import EditCollectionModal from "./edit-collection";
 // import DeleteCollectionModal from "./delete-collection";
@@ -43,15 +47,17 @@ type prop = {
 };
 
 const Collectionfolder = ({ collection, requests }: prop) => {
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isAddRequestOpen, setIsAddRequestOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const { setOpendcollection, openedCollection, openedWorkspace, workspaces } =
-    useWorkspace();
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
+  const [isAddRequestOpen, setIsAddRequestOpen] = useState<boolean>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isReqEditOpen, setIsreqEditopen] = useState<boolean>(false);
+  const [isReqDeleteOpen, setIsreqDelopen] = useState<boolean>(false);
+  const [requestdetails, setrequestdetails] = useState<Requests>();
 
   const hasRequests = requests.length;
 
+  console.log(requestdetails, "details");
   return (
     <>
       <Collapsible
@@ -143,7 +149,6 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                   {requests.map((request: any) => (
                     <div
                       key={request.id}
-                      // onClick={() => openRequestTab(request)}
                       className="flex items-center justify-between py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
                     >
                       <div className="flex items-center space-x-3 flex-1">
@@ -174,16 +179,30 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <button className="p-1 hover:bg-zinc-800 rounded">
+                            <Button
+                              className="p-1 hover:bg-zinc-800 rounded"
+                              variant={"link"}
+                              size={"sm"}
+                            >
                               <EllipsisVertical className="w-3 h-3 text-zinc-400" />
-                            </button>
+                            </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-32">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setIsreqEditopen(true);
+                                setrequestdetails(request);
+                              }}
+                            >
                               <Edit className="text-blue-400 mr-2 w-3 h-3" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setrequestdetails(request);
+                                setIsreqDelopen(true);
+                              }}
+                            >
                               <Trash className="text-red-400 mr-2 w-3 h-3" />
                               Delete
                             </DropdownMenuItem>
@@ -223,6 +242,22 @@ const Collectionfolder = ({ collection, requests }: prop) => {
         collectionId={collection.id}
         initialName={collection.name}
       />
+
+      {requestdetails && (
+        <EditReqEditModal
+          isModalOpen={isReqEditOpen}
+          setIsModalOpen={setIsreqEditopen}
+          requestdetails={requestdetails as Requests}
+        />  
+      )}    
+
+       {requestdetails && (
+        <DeleteReqModal
+          isModalOpen={isReqDeleteOpen}
+          setIsModalOpen={setIsreqDelopen}
+          requestDetails={requestdetails as Requests}
+        />  
+      )}  
     </>
   );
 };

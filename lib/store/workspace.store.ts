@@ -176,7 +176,7 @@ export const useWorkspace = create<workspacetype>()(
                   c.id === collecitonid
                     ? {
                         ...c,
-                         request: [...c.request , data],
+                        request: [...c.request, data],
                       }
                     : c
                 ),
@@ -203,6 +203,26 @@ export const useWorkspace = create<workspacetype>()(
                               }
                             : r
                         ),
+                      }
+                    : c
+                ),
+              }
+            : w
+        ),
+      }));
+    },
+
+    deleteRequest: (workspaceId, collectionid, requestid) => {
+      set((state) => ({
+        workspaces: state.workspaces.map((w) =>
+          w.id === workspaceId
+            ? {
+                ...w,
+                collection: w.collection.map((c) =>
+                  c.id === collectionid
+                    ? {
+                        ...c,
+                        request: c.request.filter((r) => r.id !== requestid),
                       }
                     : c
                 ),

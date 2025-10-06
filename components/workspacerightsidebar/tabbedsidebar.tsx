@@ -28,13 +28,8 @@ const sidebarItems = [
 
 const Tabbedsidebar = ({ collection, requestslist }: collectionpageprop) => {
   const [activeTab, setActiveTab] = useState("Collections");
-  const {
-    openedWorkspace,
-    workspaces,
-    setCollection,
-    openedCollection,
-    setRequests,
-  } = useWorkspace();
+  const { openedWorkspace, workspaces, setCollection, setRequests } =
+    useWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const wid = useSearchParams().get("wid");
 
@@ -121,8 +116,11 @@ const Tabbedsidebar = ({ collection, requestslist }: collectionpageprop) => {
                     className="flex flex-col justify-start items-start p-3 border-b border-zinc-800 w-full"
                     key={collection.id}
                   >
-                    <Collectionfolder collection={collection}   
-                     requests= {getRequestsBycollectionId.get(collection.id) || []}
+                    <Collectionfolder
+                      collection={collection}
+                      requests={
+                        getRequestsBycollectionId.get(collection.id) || []
+                      }
                     />
                   </div>
                 );

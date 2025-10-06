@@ -3,10 +3,8 @@
 import { deleteCollcetion as removeCollection } from "@/action/action";
 import Modal from "@/components/globals/modals";
 import { useWorkspace } from "@/lib/store/workspace.store";
-import { BlobOptions } from "buffer";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { boolean } from "zod";
 
 const DeleteCollectionModal = ({
   isModalOpen,

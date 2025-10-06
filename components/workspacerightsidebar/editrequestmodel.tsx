@@ -10,26 +10,24 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { REST_METHOD } from "@prisma/client";
+import { Requests, REST_METHOD } from "@prisma/client";
 import { Input } from "../ui/input";
-import { createRequest } from "@/action/action";
+import { updateRequest as updatereq } from "@/action/action";
 import { useWorkspace } from "@/lib/store/workspace.store";
 
-const AddRequestCollectionModal = ({
+const EditReqEditModal = ({
   isModalOpen,
   setIsModalOpen,
-  collectionId,
-  initialName = "Untitled",
+  requestdetails,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
-  collectionId: string;
-  initialName: string;
+  requestdetails: Requests;
 }) => {
-  const [url, setUrl] = useState("https://google.com");
-  const [method, setMethod] = useState<REST_METHOD>(REST_METHOD.GET);
-  const [name, setName] = useState(initialName);
-  const { addRequests, openedWorkspace,workspaces } = useWorkspace();
+  const [url, setUrl] = useState(requestdetails?.url || "");
+  const [method, setMethod] = useState<REST_METHOD>(requestdetails.method);
+  const [name, setName] = useState(requestdetails.name);
+  const { updateRequest, openedWorkspace, workspaces } = useWorkspace();
   const [isPending, setIspending] = useState<boolean>(false);
   const [err, setErr] = useState({
     name: "",
@@ -45,7 +43,7 @@ const AddRequestCollectionModal = ({
   };
 
   const handleSubmit = async () => { 
-    setIspending(true)
+    setIspending(true);
     if (name.trim().length < 3) {
       setErr((prev) => ({
         ...prev,
@@ -68,25 +66,27 @@ const AddRequestCollectionModal = ({
       return;
     }
     try {
-      let newWorkspaceName =
+      let newReqname =
         name.trim().charAt(0).toUpperCase() +
         name.trim().substring(1).toLowerCase();
-      const createdRequest = await createRequest({
-        name: newWorkspaceName,
-        collectionId,
+      console.log(openedWorkspace?.id, "workspace id ");
+      const updatedReq = await updatereq({
+        id: requestdetails.id,
+        collectionId: requestdetails.collectionId,
         url,
         method,
-      }); 
-      console.log(openedWorkspace?.id,"workspace id ") 
-      console.log(collectionId , "colledtion id ") 
-      console.log(createdRequest,"data") 
-      addRequests(openedWorkspace?.id as string, collectionId, createdRequest); 
-      console.log(workspaces,"workspaces now what is the issue request is adding or not ");
+        name: newReqname,
+      });
+      updateRequest(
+        openedWorkspace?.id as string,
+        updatedReq.collectionId,
+        updatedReq.id,
+        updatedReq
+      );
       toast.success("Congratulations", {
         duration: 3000,
-        description: "Request is created",
+        description: "Request is Edited",
       });
-      console.log(workspaces,"workspaces inside the add request s")
       setIsModalOpen(false);
     } catch (error) {
       toast.error("Server Error", {
@@ -101,12 +101,12 @@ const AddRequestCollectionModal = ({
 
   return (
     <Modal
-      title="Add Request to Collection"
-      description="Create a new request in your collection"
+      title="Edit Request to Collection"
+      description="Edit a new request in your collection"
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
       onSubmit={handleSubmit}
-      submitText={isPending ? "Adding..." : "Add Request"}
+      submitText={isPending ? "Editing..." : "Edit Request"}
       submitVariant="default"
       modalstate={isPending}
     >
@@ -167,4 +167,4 @@ const AddRequestCollectionModal = ({
   );
 };
 
-export default AddRequestCollectionModal;
+export default EditReqEditModal;
