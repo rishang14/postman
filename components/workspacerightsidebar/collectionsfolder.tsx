@@ -61,7 +61,6 @@ const Collectionfolder = ({ collection, requests }: prop) => {
     e: React.MouseEvent<HTMLDivElement>,
     request: Requests
   ) => {
-    e.stopPropagation();
     setOpendRequests(request);
     addtoOpenedRequest(request);
   };
@@ -193,14 +192,16 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                             <Button
                               className="p-1 hover:bg-zinc-800 rounded"
                               variant={"link"}
-                              size={"sm"}
+                              size={"sm"} 
+                              onClick={(e)=> e.stopPropagation()}
                             >
                               <EllipsisVertical className="w-3 h-3 text-zinc-400" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-32">
                             <DropdownMenuItem
-                              onClick={() => {
+                              onClick={(e) => { 
+                                e.stopPropagation()
                                 setIsreqEditopen(true);
                                 setrequestdetails(request);
                               }}
@@ -209,7 +210,8 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() => {
+                              onClick={(e) => { 
+                                e.stopPropagation()
                                 setrequestdetails(request);
                                 setIsreqDelopen(true);
                               }}
@@ -235,7 +237,8 @@ const Collectionfolder = ({ collection, requests }: prop) => {
         </div>
       </Collapsible>
 
-      <AddRequestCollectionModal
+      <AddRequestCollectionModal 
+      fromcollection={true}
         isModalOpen={isAddRequestOpen}
         setIsModalOpen={setIsAddRequestOpen}
         collectionId={collection.id}

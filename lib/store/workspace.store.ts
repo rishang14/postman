@@ -58,6 +58,7 @@ type workspacetype = {
     requestid: string,
     data: Requests
   ) => void;
+  removeFromallOpendRequest: (data: string) => void;
 };
 
 export const useWorkspace = create<workspacetype>()(
@@ -250,6 +251,22 @@ export const useWorkspace = create<workspacetype>()(
         if (isexist) return state;
         return {
           allopendRequest: [...state.allopendRequest, data],
+        };
+      });
+    },
+
+    removeFromallOpendRequest: (id) => {
+      set((state) => {
+        const removedRequest = state.allopendRequest.filter((r) => r.id !== id);
+
+        let newOpendrequest: Requests | null =
+          state.openedRequest?.id === id
+            ? removedRequest[removedRequest.length - 1] || null
+            : state.openedRequest;
+
+        return {
+          allopendRequest: removedRequest,
+          openedRequest: newOpendrequest,
         };
       });
     },

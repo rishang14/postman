@@ -177,6 +177,7 @@ export const createRequest = async (values: Partial<Requests>) => {
         name: values.name as string,
         method: values.method as REST_METHOD,
         url: values.url as string,
+        saved: values.saved,
       },
     });
 

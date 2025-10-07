@@ -10,26 +10,35 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { REST_METHOD } from "@prisma/client";
+import { Collection, REST_METHOD } from "@prisma/client";
 import { Input } from "../ui/input";
 import { createRequest } from "@/action/action";
 import { useWorkspace } from "@/lib/store/workspace.store";
+import { Button } from "../ui/button";
+import { Folder } from "lucide-react";
 
 const AddRequestCollectionModal = ({
   isModalOpen,
   setIsModalOpen,
   collectionId,
   initialName = "Untitled",
+  fromcollection,
 }: {
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
-  collectionId: string;
+  collectionId?: string;
   initialName: string;
+  fromcollection: boolean;
 }) => {
   const [url, setUrl] = useState("https://google.com");
   const [method, setMethod] = useState<REST_METHOD>(REST_METHOD.GET);
   const [name, setName] = useState(initialName);
-  const { addRequests, openedWorkspace,workspaces } = useWorkspace();
+  const { addRequests, openedWorkspace, workspaces, openedCollection } =
+    useWorkspace();
+  const collectionavail =
+    workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || [];
+  const [selectedCollection, setSelectedCollectionId] =
+    useState<Collection | null>(collectionavail[0]);
   const [isPending, setIspending] = useState<boolean>(false);
   const [err, setErr] = useState({
     name: "",
@@ -44,8 +53,8 @@ const AddRequestCollectionModal = ({
     [REST_METHOD.PATCH]: "text-orange-500",
   };
 
-  const handleSubmit = async () => { 
-    setIspending(true)
+  const handleSubmit = async () => {
+    setIspending(true);
     if (name.trim().length < 3) {
       setErr((prev) => ({
         ...prev,
@@ -68,26 +77,36 @@ const AddRequestCollectionModal = ({
       return;
     }
     try {
+      let collectionid = fromcollection
+        ? collectionId
+        : (selectedCollection?.id as string);
       let newWorkspaceName =
         name.trim().charAt(0).toUpperCase() +
         name.trim().substring(1).toLowerCase();
       const createdRequest = await createRequest({
         name: newWorkspaceName,
-        collectionId,
+        collectionId: collectionid,
         url,
-        method, 
-        saved:true
-      }); 
-      console.log(openedWorkspace?.id,"workspace id ") 
-      console.log(collectionId , "colledtion id ") 
-      console.log(createdRequest,"data") 
-      addRequests(openedWorkspace?.id as string, collectionId, createdRequest); 
-      console.log(workspaces,"workspaces now what is the issue request is adding or not ");
+        method,
+        saved: true,
+      });
+      console.log(openedWorkspace?.id, "workspace id ");
+      console.log(collectionId, "colledtion id ");
+      console.log(createdRequest, "data");
+      addRequests(
+        openedWorkspace?.id as string,
+        collectionid as string,
+        createdRequest
+      );
+      console.log(
+        workspaces,
+        "workspaces now what is the issue request is adding or not "
+      );
       toast.success("Congratulations", {
         duration: 3000,
         description: "Request is created",
       });
-      console.log(workspaces,"workspaces inside the add request s")
+      console.log(workspaces, "workspaces inside the add request s");
       setIsModalOpen(false);
     } catch (error) {
       toast.error("Server Error", {
@@ -150,6 +169,72 @@ const AddRequestCollectionModal = ({
             </SelectContent>
           </Select>
         </div>
+
+        {!fromcollection && (
+          <>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-zinc-200">
+                Select location
+              </label>
+
+              <div className="flex items-center space-x-2 text-sm text-zinc-400 mb-3">
+                <span>{openedWorkspace?.name || "workspace"}</span>
+                <span>&rsaquo;</span>
+                <span>Collections</span>
+              </div>
+
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {collectionavail.map((collection) => (
+                  <div
+                    key={collection.id}
+                    onClick={() => setSelectedCollectionId(collection)}
+                    className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+                      selectedCollection?.id === collection.id
+                        ? "bg-indigo-600/20 border border-indigo-500/50 shadow-lg shadow-indigo-500/10"
+                        : "hover:bg-zinc-800 border border-transparent"
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      {selectedCollection?.id === collection.id ? (
+                        <div className="w-4 h-4 rounded-full bg-indigo-500 flex items-center justify-center">
+                          <div className="w-2 h-2 rounded-full bg-white"></div>
+                        </div>
+                      ) : (
+                        <Folder className="w-4 h-4 text-zinc-400" />
+                      )}
+                      <span
+                        className={`text-sm font-medium ${
+                          selectedCollection?.id === collection.id
+                            ? "text-indigo-200"
+                            : "text-zinc-200"
+                        }`}
+                      >
+                        {collection.name}
+                      </span>
+                    </div>
+
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                        <span className="text-zinc-500">⋯</span>
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {selectedCollection && (
+              <div className="p-3 bg-zinc-800/50 rounded-lg border border-zinc-700">
+                <div className="flex items-center space-x-2 text-sm">
+                  <span className="text-zinc-400">Saving to:</span>
+                  <Folder className="w-4 h-4 text-indigo-400" />
+                  <span className="text-indigo-400 font-medium">
+                    {selectedCollection.name}
+                  </span>
+                </div>
+              </div>
+            )}
+          </>
+        )}
 
         <div>
           <label className="block text-sm font-medium mb-2">URL</label>
