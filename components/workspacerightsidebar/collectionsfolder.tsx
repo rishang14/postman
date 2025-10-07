@@ -1,13 +1,12 @@
 import {
   EllipsisVertical,
   FilePlus,
-  Folder,
   Trash,
   Edit,
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Collection, Requests, REST_METHOD } from "@prisma/client";
 import {
   DropdownMenu,
@@ -23,15 +22,10 @@ import {
 import DeleteCollectionModal from "./deletecollectionmodal";
 import EditCollectionModal from "./eidtcollectionmodal";
 import AddRequestCollectionModal from "./addrequestmodal";
-import { useWorkspace } from "@/lib/store/workspace.store";
-import { getAllrequest } from "@/action/action";
 import { Button } from "../ui/button";
-import { tr } from "zod/v4/locales";
 import EditReqEditModal from "./editrequestmodel";
 import DeleteReqModal from "./deleteRequest";
-
-// import EditCollectionModal from "./edit-collection";
-// import DeleteCollectionModal from "./delete-collection";
+import { useWorkspace } from "@/lib/store/workspace.store";
 
 const requestColorMap: Record<REST_METHOD, string> = {
   [REST_METHOD.GET]: "text-green-500",
@@ -54,10 +48,26 @@ const Collectionfolder = ({ collection, requests }: prop) => {
   const [isReqEditOpen, setIsreqEditopen] = useState<boolean>(false);
   const [isReqDeleteOpen, setIsreqDelopen] = useState<boolean>(false);
   const [requestdetails, setrequestdetails] = useState<Requests>();
+  const {
+    setOpendRequests,
+    addtoOpenedRequest,
+    openedRequest,
+    allopendRequest,
+  } = useWorkspace();
 
   const hasRequests = requests.length;
 
-  console.log(requestdetails, "details");
+  const handleClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    request: Requests
+  ) => {
+    e.stopPropagation();
+    setOpendRequests(request);
+    addtoOpenedRequest(request);
+  };
+
+  console.log(allopendRequest, "allopend request");
+  console.log(openedRequest, "Current Opened Request");
   return (
     <>
       <Collapsible
@@ -149,6 +159,7 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                   {requests.map((request: any) => (
                     <div
                       key={request.id}
+                      onClick={(e) => handleClick(e, request)}
                       className="flex items-center justify-between py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
                     >
                       <div className="flex items-center space-x-3 flex-1">
@@ -248,16 +259,16 @@ const Collectionfolder = ({ collection, requests }: prop) => {
           isModalOpen={isReqEditOpen}
           setIsModalOpen={setIsreqEditopen}
           requestdetails={requestdetails as Requests}
-        />  
-      )}    
+        />
+      )}
 
-       {requestdetails && (
+      {requestdetails && (
         <DeleteReqModal
           isModalOpen={isReqDeleteOpen}
           setIsModalOpen={setIsreqDelopen}
           requestDetails={requestdetails as Requests}
-        />  
-      )}  
+        />
+      )}
     </>
   );
 };

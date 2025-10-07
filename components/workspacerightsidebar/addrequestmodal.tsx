@@ -75,7 +75,8 @@ const AddRequestCollectionModal = ({
         name: newWorkspaceName,
         collectionId,
         url,
-        method,
+        method, 
+        saved:true
       }); 
       console.log(openedWorkspace?.id,"workspace id ") 
       console.log(collectionId , "colledtion id ") 

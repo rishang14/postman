@@ -2,6 +2,7 @@ import { Collection, Requests, Workspace } from "@prisma/client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { WorkspaceMember } from "@prisma/client";
+import { da } from "zod/v4/locales";
 
 export type workspacewithmember = Workspace & {
   members: WorkspaceMember[] | [];
@@ -18,8 +19,12 @@ type workspacetype = {
   workspaces: workspacecwithCollection[];
   openedWorkspace: Workspace | null;
   openedCollection: Collection | null;
+  allopendRequest: Requests[] | [];
+  openedRequest: Requests | null;
   setOpenwokrspace: (data: Workspace) => void;
   setOpendcollection: (data: Collection) => void;
+  setOpendRequests: (data: Requests) => void;
+  addtoOpenedRequest: (data: Requests) => void;
   setworkspace: (data: workspacecwithCollection[]) => void;
   addworkspace: (data: workspacecwithCollection) => void;
   deleteworkspace: (data: Workspace) => void;
@@ -60,6 +65,8 @@ export const useWorkspace = create<workspacetype>()(
     workspaces: [],
     openedWorkspace: null,
     openedCollection: null,
+    openedRequest: null,
+    allopendRequest: [],
 
     setOpenwokrspace(data) {
       set(() => ({
@@ -146,6 +153,11 @@ export const useWorkspace = create<workspacetype>()(
       }));
     },
     //request
+    setOpendRequests: (data) => {
+      set(() => ({
+        openedRequest: data,
+      }));
+    },
     setRequests: (workapceid, collecitonid, data) => {
       set((state) => ({
         workspaces: state.workspaces.map((w) =>
@@ -230,6 +242,16 @@ export const useWorkspace = create<workspacetype>()(
             : w
         ),
       }));
+    },
+
+    addtoOpenedRequest: (data) => {
+      set((state) => {
+        const isexist = state.allopendRequest.find((i) => i.id == data.id);
+        if (isexist) return state;
+        return {
+          allopendRequest: [...state.allopendRequest, data],
+        };
+      });
     },
   }))
 

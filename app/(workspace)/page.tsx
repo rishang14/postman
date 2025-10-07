@@ -2,7 +2,6 @@ import { getAllrequest, getCollections } from "@/action/action";
 import CollectionPage from "@/components/workspacerightsidebar/collection";
 import { Requests } from "@prisma/client";
 import React from "react";
-import { string } from "zod";
 
 const Homepage = async ({ searchParams }: any) => {
   const { wid } = await searchParams;
@@ -22,7 +21,6 @@ const Homepage = async ({ searchParams }: any) => {
       requests.set(items.id, data);
     }
   }
-  console.log(requests, "all requests ");
 
   return <CollectionPage collection={collections} requestslist={requests} />;
 };
