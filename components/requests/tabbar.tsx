@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import AddRequestCollectionModal from "../workspacerightsidebar/addrequestmodal";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toast } from "sonner";
+import AddNameModal from "./addnamemodal";
 const requestColorMap: Record<string, string> = {
   GET: "text-green-500",
   POST: "text-blue-500",
@@ -21,6 +22,7 @@ const TabBar = () => {
     workspaces,
   } = useWorkspace();
   const [addnewtabmodalOpen, setaddnewtabmodalopen] = useState(false);
+  const [changeNameModealOpen, setChangeNameModalopen] = useState(false);
 
   const handleaddnewTab = () => {
     setaddnewtabmodalopen(true);
@@ -32,6 +34,10 @@ const TabBar = () => {
         {allopendRequest.map((tab) => (
           <div
             key={tab.id}
+            onDoubleClick={() => {
+              setOpendRequests(tab);
+              setChangeNameModalopen(true);
+            }}
             onClick={() => setOpendRequests(tab)}
             className={`group px-4 py-2 flex items-center gap-2 cursor-pointer ${
               openedRequest?.id === tab.id
@@ -70,6 +76,14 @@ const TabBar = () => {
               className=" w-4 h-4 ml-2 hover:text-red-500 transition-all ease-in-out"
               onClick={(e) => {
                 e.stopPropagation();
+                if (!tab.saved) {
+                  toast.info("Request Deatils", {
+                    duration: 3000,
+                    description:
+                      "Your current File is unsaved Pls save before closing",
+                  });
+                  return;
+                }
                 removeFromallOpendRequest(tab.id);
               }}
             />
@@ -84,13 +98,14 @@ const TabBar = () => {
         </Button>
       </div>
 
-      {/* {selectedTabId && (
+      {openedRequest && (
         <AddNameModal
-          isModalOpen={renameModalOpen}
-          setIsModalOpen={setRenameModalOpen}
-          tabId={selectedTabId}
+          isModalOpen={changeNameModealOpen}
+          setIsModalOpen={setChangeNameModalopen}
+          opendtab={openedRequest}
         />
-      )} */}
+      )}
+
       <AddRequestCollectionModal
         isModalOpen={addnewtabmodalOpen}
         setIsModalOpen={setaddnewtabmodalopen}

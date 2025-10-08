@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import { updateRequest as updatereq } from "@/action/action";
 import { toast } from "sonner";
 import { useWorkspace } from "@/lib/store/workspace.store";
 import { REST_METHOD } from "@prisma/client";
@@ -23,9 +24,15 @@ const requestColorMap: Record<string, string> = {
 };
 
 const RequestBar = () => {
-  const { openedRequest, updateRequest, openedCollection, openedWorkspace } =
-    useWorkspace();
-
+  const {
+    openedRequest,
+    updateRequest,
+    openedCollection,
+    openedWorkspace,
+    setOpendRequests,
+    updateallopenedReq,
+  } = useWorkspace();
+  const [isPending, setIspending] = useState<boolean>(false);
   if (!openedRequest) return null;
 
   const handlechange = (method: REST_METHOD) => {
@@ -36,8 +43,32 @@ const RequestBar = () => {
       {
         ...openedRequest,
         method,
+        saved: false,
       }
     );
+    setOpendRequests({ ...openedRequest, method, saved: false });
+    updateallopenedReq({ ...openedRequest, method, saved: false });
+  };
+
+  const onSendRequest = async () => {
+    setIspending(true);
+    const updatedReq = await updatereq({ ...openedRequest, saved: true });
+    updateRequest(
+      openedWorkspace?.id as string,
+      openedCollection?.id as string,
+      openedRequest.id,
+      {
+        ...openedRequest,
+        saved: true,
+      }
+    );
+    setOpendRequests({ ...openedRequest, saved: true });
+    updateallopenedReq({ ...openedRequest, saved: true });
+    toast.success("Congratulations", {
+      duration: 3000,
+      description: "Your request is updated successfully",
+    });
+    setIspending(false);
   };
   return (
     <div className="flex flex-row items-center justify-between bg-zinc-900 rounded-md px-2 py-2 w-full">
@@ -45,6 +76,7 @@ const RequestBar = () => {
         <Select value={openedRequest?.method} onValueChange={handlechange}>
           <SelectTrigger
             className={`w-24 ${requestColorMap[openedRequest?.method] || "text-gray-500"}`}
+            disabled={isPending}
           >
             <SelectValue />
           </SelectTrigger>
@@ -68,7 +100,25 @@ const RequestBar = () => {
 
         <Input
           value={openedRequest.url || ""}
-          //   onChange={(e) => updateopenedRequest(openedRequest.id, { url: e.target.value })}
+          onChange={(e) => {
+            updateRequest(
+              openedWorkspace?.id as string,
+              openedCollection?.id as string,
+              openedRequest.id,
+              { ...openedRequest, url: e.target.value, saved: false }
+            );
+            setOpendRequests({
+              ...openedRequest,
+              url: e.target.value,
+              saved: false,
+            });
+            updateallopenedReq({
+              ...openedRequest,
+              url: e.target.value,
+              saved: false,
+            });
+          }}
+          disabled={isPending}
           placeholder="Enter URL"
           className="flex-1"
         />
@@ -76,8 +126,8 @@ const RequestBar = () => {
 
       <Button
         type="submit"
-        // onClick={onSendRequest}
-        // disabled={isPending || !openedRequest.url}
+        onClick={onSendRequest}
+        disabled={isPending || openedRequest.url.length < 5}
         className="ml-2 text-white  font-bold bg-indigo-500 hover:bg-indigo-600"
       >
         <Send className="mr-2" />

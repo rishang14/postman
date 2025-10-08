@@ -59,6 +59,7 @@ type workspacetype = {
     data: Requests
   ) => void;
   removeFromallOpendRequest: (data: string) => void;
+  updateallopenedReq: (data: Requests) => void;
 };
 
 export const useWorkspace = create<workspacetype>()(
@@ -155,9 +156,15 @@ export const useWorkspace = create<workspacetype>()(
     },
     //request
     setOpendRequests: (data) => {
-      set(() => ({
-        openedRequest: data,
-      }));
+      set((state) => {
+        const req = state.workspaces
+          .find((w) => w.id === state.openedWorkspace?.id)
+          ?.collection.find((c) => c.id === state.openedCollection?.id)
+          ?.request.find((r) => r.id === data.id);
+        return {
+          openedRequest: req,
+        };
+      });
     },
     setRequests: (workapceid, collecitonid, data) => {
       set((state) => ({
@@ -248,7 +255,14 @@ export const useWorkspace = create<workspacetype>()(
     addtoOpenedRequest: (data) => {
       set((state) => {
         const isexist = state.allopendRequest.find((i) => i.id == data.id);
-        if (isexist) return state;
+        if (isexist) {
+          if (isexist.id !== state.openedRequest?.id) {
+            return {
+              openedRequest: { ...isexist },
+            };
+          }
+          return {};
+        }
         return {
           allopendRequest: [...state.allopendRequest, data],
         };
@@ -269,6 +283,17 @@ export const useWorkspace = create<workspacetype>()(
           openedRequest: newOpendrequest,
         };
       });
+    },
+    updateallopenedReq: (data) => {
+      set((state) => ({
+        allopendRequest: state.allopendRequest.map((ar) =>
+          ar.id === data.id
+            ? {
+                ...data,
+              }
+            : ar
+        ),
+      }));
     },
   }))
 

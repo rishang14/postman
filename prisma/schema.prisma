@@ -123,19 +123,20 @@ model Collection {
 }
 
 model Requests {
-  id           String      @id @default(cuid())
+  id           String       @id @default(cuid())
   name         String
   method       REST_METHOD
   collectionId String
-  collection   Collection  @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collection   Collection   @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   url          String
   parameters   Json?
   headers      Json?
-  saved        Boolean @default(false)
-  body      Json?
-  response  Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  saved        Boolean      @default(false)
+  requestrun   Requestrun[]
+  body         Json?
+  response     Json?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now()) @updatedAt
 }
 
 enum REST_METHOD {
@@ -144,4 +145,17 @@ enum REST_METHOD {
   PUT
   PATCH
   DELETE
+}
+
+model Requestrun {
+  id         String   @id @default(cuid())
+  requestid  String
+  request    Requests @relation(fields: [requestid], references: [id], onDelete: Cascade)
+  status     Int
+  statusText String?
+  headers    Json?
+  body       String? // raw text or JSON string
+  durationMs Int?
+
+  createdAt DateTime @default(now())
 }

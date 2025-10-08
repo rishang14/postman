@@ -51,6 +51,7 @@ const Collectionfolder = ({ collection, requests }: prop) => {
   const {
     setOpendRequests,
     addtoOpenedRequest,
+    setOpendcollection,
     openedRequest,
     allopendRequest,
   } = useWorkspace();
@@ -77,7 +78,10 @@ const Collectionfolder = ({ collection, requests }: prop) => {
         <div className="flex flex-col w-full">
           {/* Collection Header */}
           <div className="flex flex-row justify-between items-center p-2 flex-1 w-full hover:bg-zinc-900 rounded-md">
-            <CollapsibleTrigger className="flex flex-row justify-start items-center space-x-2 flex-1">
+            <CollapsibleTrigger
+              className="flex flex-row justify-start items-center space-x-2 flex-1"
+              onClick={() => setOpendcollection(collection)}
+            >
               <div className="flex items-center space-x-1">
                 {isCollapsed ? (
                   <ChevronDown className="w-4 h-4 text-zinc-400" />
@@ -192,16 +196,16 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                             <Button
                               className="p-1 hover:bg-zinc-800 rounded"
                               variant={"link"}
-                              size={"sm"} 
-                              onClick={(e)=> e.stopPropagation()}
+                              size={"sm"}
+                              onClick={(e) => e.stopPropagation()}
                             >
                               <EllipsisVertical className="w-3 h-3 text-zinc-400" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="w-32">
                             <DropdownMenuItem
-                              onClick={(e) => { 
-                                e.stopPropagation()
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setIsreqEditopen(true);
                                 setrequestdetails(request);
                               }}
@@ -210,8 +214,8 @@ const Collectionfolder = ({ collection, requests }: prop) => {
                               Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={(e) => { 
-                                e.stopPropagation()
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setrequestdetails(request);
                                 setIsreqDelopen(true);
                               }}
@@ -237,8 +241,8 @@ const Collectionfolder = ({ collection, requests }: prop) => {
         </div>
       </Collapsible>
 
-      <AddRequestCollectionModal 
-      fromcollection={true}
+      <AddRequestCollectionModal
+        fromcollection={true}
         isModalOpen={isAddRequestOpen}
         setIsModalOpen={setIsAddRequestOpen}
         collectionId={collection.id}
