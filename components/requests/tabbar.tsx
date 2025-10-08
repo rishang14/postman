@@ -28,16 +28,18 @@ const TabBar = () => {
     setaddnewtabmodalopen(true);
   };
 
+  console.log(openedRequest,"req") 
+  console.log(allopendRequest,"req are opend")
   return (
     <>
       <div className="flex items-center border-b border-zinc-800 bg-zinc-900">
         {allopendRequest.map((tab) => (
           <div
             key={tab.id}
-            onDoubleClick={() => {
-              setOpendRequests(tab);
-              setChangeNameModalopen(true);
-            }}
+            // onDoubleClick={() => {
+            //   setOpendRequests(tab);
+            //   setChangeNameModalopen(true);
+            // }}
             onClick={() => setOpendRequests(tab)}
             className={`group px-4 py-2 flex items-center gap-2 cursor-pointer ${
               openedRequest?.id === tab.id

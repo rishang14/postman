@@ -13,7 +13,7 @@ const Requesteditor = () => {
       <RequestBar />
 
       <div className="flex flex-1 flex-col w-full justify-start mt-4 items-center ">
-        <Requesteditorarea />
+        {/* <Requesteditorarea /> */}
       </div>
       {/* {
         responseViewerData &&

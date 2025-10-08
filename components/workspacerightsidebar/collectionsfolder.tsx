@@ -66,8 +66,6 @@ const Collectionfolder = ({ collection, requests }: prop) => {
     addtoOpenedRequest(request);
   };
 
-  console.log(allopendRequest, "allopend request");
-  console.log(openedRequest, "Current Opened Request");
   return (
     <>
       <Collapsible

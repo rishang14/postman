@@ -159,7 +159,7 @@ export const useWorkspace = create<workspacetype>()(
       set((state) => {
         const req = state.workspaces
           .find((w) => w.id === state.openedWorkspace?.id)
-          ?.collection.find((c) => c.id === state.openedCollection?.id)
+          ?.collection.find((c) => c.id === data.collectionId)
           ?.request.find((r) => r.id === data.id);
         return {
           openedRequest: req,
