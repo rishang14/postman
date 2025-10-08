@@ -9,6 +9,7 @@ export const RequestsCreateResultSchema = z.object({
   parameters: z.unknown().optional(),
   headers: z.unknown().optional(),
   saved: z.boolean(),
+  requestrun: z.array(z.unknown()),
   body: z.unknown().optional(),
   response: z.unknown().optional(),
   createdAt: z.date(),

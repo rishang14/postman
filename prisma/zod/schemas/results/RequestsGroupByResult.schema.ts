@@ -21,6 +21,7 @@ export const RequestsGroupByResultSchema = z.array(z.object({
     parameters: z.number(),
     headers: z.number(),
     saved: z.number(),
+    requestrun: z.number(),
     body: z.number(),
     response: z.number(),
     createdAt: z.number(),

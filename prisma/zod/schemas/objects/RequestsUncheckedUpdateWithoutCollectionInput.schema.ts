@@ -5,7 +5,8 @@ import { REST_METHODSchema } from '../enums/REST_METHOD.schema';
 import { EnumREST_METHODFieldUpdateOperationsInputObjectSchema as EnumREST_METHODFieldUpdateOperationsInputObjectSchema } from './EnumREST_METHODFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
-import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema'
+import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
+import { RequestrunUncheckedUpdateManyWithoutRequestNestedInputObjectSchema as RequestrunUncheckedUpdateManyWithoutRequestNestedInputObjectSchema } from './RequestrunUncheckedUpdateManyWithoutRequestNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -20,7 +21,8 @@ const makeSchema = () => z.object({
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional()
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
+  requestrun: z.lazy(() => RequestrunUncheckedUpdateManyWithoutRequestNestedInputObjectSchema).optional()
 }).strict();
 export const RequestsUncheckedUpdateWithoutCollectionInputObjectSchema: z.ZodType<Prisma.RequestsUncheckedUpdateWithoutCollectionInput> = makeSchema() as unknown as z.ZodType<Prisma.RequestsUncheckedUpdateWithoutCollectionInput>;
 export const RequestsUncheckedUpdateWithoutCollectionInputObjectZodSchema = makeSchema();

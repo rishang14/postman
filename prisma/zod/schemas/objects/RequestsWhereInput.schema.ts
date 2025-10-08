@@ -7,7 +7,8 @@ import { JsonNullableFilterObjectSchema as JsonNullableFilterObjectSchema } from
 import { BoolFilterObjectSchema as BoolFilterObjectSchema } from './BoolFilter.schema';
 import { DateTimeFilterObjectSchema as DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { CollectionScalarRelationFilterObjectSchema as CollectionScalarRelationFilterObjectSchema } from './CollectionScalarRelationFilter.schema';
-import { CollectionWhereInputObjectSchema as CollectionWhereInputObjectSchema } from './CollectionWhereInput.schema'
+import { CollectionWhereInputObjectSchema as CollectionWhereInputObjectSchema } from './CollectionWhereInput.schema';
+import { RequestrunListRelationFilterObjectSchema as RequestrunListRelationFilterObjectSchema } from './RequestrunListRelationFilter.schema'
 
 const requestswhereinputSchema = z.object({
   AND: z.union([z.lazy(() => RequestsWhereInputObjectSchema), z.lazy(() => RequestsWhereInputObjectSchema).array()]).optional(),
@@ -25,7 +26,8 @@ const requestswhereinputSchema = z.object({
   response: z.lazy(() => JsonNullableFilterObjectSchema).optional(),
   createdAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
   updatedAt: z.union([z.lazy(() => DateTimeFilterObjectSchema), z.coerce.date()]).optional(),
-  collection: z.union([z.lazy(() => CollectionScalarRelationFilterObjectSchema), z.lazy(() => CollectionWhereInputObjectSchema)]).optional()
+  collection: z.union([z.lazy(() => CollectionScalarRelationFilterObjectSchema), z.lazy(() => CollectionWhereInputObjectSchema)]).optional(),
+  requestrun: z.lazy(() => RequestrunListRelationFilterObjectSchema).optional()
 }).strict();
 export const RequestsWhereInputObjectSchema: z.ZodType<Prisma.RequestsWhereInput> = requestswhereinputSchema as unknown as z.ZodType<Prisma.RequestsWhereInput>;
 export const RequestsWhereInputObjectZodSchema = requestswhereinputSchema;

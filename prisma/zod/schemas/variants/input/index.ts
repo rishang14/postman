@@ -11,3 +11,4 @@ export { WorkspaceInputSchema } from './Workspace.input';
 export { WorkspaceMemberInputSchema } from './WorkspaceMember.input';
 export { CollectionInputSchema } from './Collection.input';
 export { RequestsInputSchema } from './Requests.input';
+export { RequestrunInputSchema } from './Requestrun.input';

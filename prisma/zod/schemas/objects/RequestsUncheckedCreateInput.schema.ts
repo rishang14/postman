@@ -1,7 +1,8 @@
 import * as z from 'zod';
 import type { Prisma } from '@prisma/client';
 import { REST_METHODSchema } from '../enums/REST_METHOD.schema';
-import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema'
+import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
+import { RequestrunUncheckedCreateNestedManyWithoutRequestInputObjectSchema as RequestrunUncheckedCreateNestedManyWithoutRequestInputObjectSchema } from './RequestrunUncheckedCreateNestedManyWithoutRequestInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -16,7 +17,8 @@ const makeSchema = () => z.object({
   saved: z.boolean().optional(),
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
-  createdAt: z.coerce.date().optional()
+  createdAt: z.coerce.date().optional(),
+  requestrun: z.lazy(() => RequestrunUncheckedCreateNestedManyWithoutRequestInputObjectSchema)
 }).strict();
 export const RequestsUncheckedCreateInputObjectSchema: z.ZodType<Prisma.RequestsUncheckedCreateInput> = makeSchema() as unknown as z.ZodType<Prisma.RequestsUncheckedCreateInput>;
 export const RequestsUncheckedCreateInputObjectZodSchema = makeSchema();

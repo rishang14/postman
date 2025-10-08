@@ -19,10 +19,12 @@ export const RequestsFindFirstOrThrowSelectSchema: z.ZodType<Prisma.RequestsSele
     parameters: z.boolean().optional(),
     headers: z.boolean().optional(),
     saved: z.boolean().optional(),
+    requestrun: z.boolean().optional(),
     body: z.boolean().optional(),
     response: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    _count: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.RequestsSelect>;
 
 export const RequestsFindFirstOrThrowSelectZodSchema = z.object({
@@ -35,10 +37,12 @@ export const RequestsFindFirstOrThrowSelectZodSchema = z.object({
     parameters: z.boolean().optional(),
     headers: z.boolean().optional(),
     saved: z.boolean().optional(),
+    requestrun: z.boolean().optional(),
     body: z.boolean().optional(),
     response: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional()
+    updatedAt: z.boolean().optional(),
+    _count: z.boolean().optional()
   }).strict();
 
 export const RequestsFindFirstOrThrowSchema: z.ZodType<Prisma.RequestsFindFirstOrThrowArgs> = z.object({ select: RequestsFindFirstOrThrowSelectSchema.optional(), include: z.lazy(() => RequestsIncludeObjectSchema.optional()), orderBy: z.union([RequestsOrderByWithRelationInputObjectSchema, RequestsOrderByWithRelationInputObjectSchema.array()]).optional(), where: RequestsWhereInputObjectSchema.optional(), cursor: RequestsWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([RequestsScalarFieldEnumSchema, RequestsScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.RequestsFindFirstOrThrowArgs>;

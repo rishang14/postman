@@ -1,0 +1,14 @@
+import type { Prisma } from '@prisma/client';
+import * as z from 'zod';
+import { RequestrunOrderByWithRelationInputObjectSchema as RequestrunOrderByWithRelationInputObjectSchema } from './objects/RequestrunOrderByWithRelationInput.schema';
+import { RequestrunWhereInputObjectSchema as RequestrunWhereInputObjectSchema } from './objects/RequestrunWhereInput.schema';
+import { RequestrunWhereUniqueInputObjectSchema as RequestrunWhereUniqueInputObjectSchema } from './objects/RequestrunWhereUniqueInput.schema';
+import { RequestrunCountAggregateInputObjectSchema as RequestrunCountAggregateInputObjectSchema } from './objects/RequestrunCountAggregateInput.schema';
+import { RequestrunMinAggregateInputObjectSchema as RequestrunMinAggregateInputObjectSchema } from './objects/RequestrunMinAggregateInput.schema';
+import { RequestrunMaxAggregateInputObjectSchema as RequestrunMaxAggregateInputObjectSchema } from './objects/RequestrunMaxAggregateInput.schema';
+import { RequestrunAvgAggregateInputObjectSchema as RequestrunAvgAggregateInputObjectSchema } from './objects/RequestrunAvgAggregateInput.schema';
+import { RequestrunSumAggregateInputObjectSchema as RequestrunSumAggregateInputObjectSchema } from './objects/RequestrunSumAggregateInput.schema';
+
+export const RequestrunAggregateSchema: z.ZodType<Prisma.RequestrunAggregateArgs> = z.object({ orderBy: z.union([RequestrunOrderByWithRelationInputObjectSchema, RequestrunOrderByWithRelationInputObjectSchema.array()]).optional(), where: RequestrunWhereInputObjectSchema.optional(), cursor: RequestrunWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), RequestrunCountAggregateInputObjectSchema ]).optional(), _min: RequestrunMinAggregateInputObjectSchema.optional(), _max: RequestrunMaxAggregateInputObjectSchema.optional(), _avg: RequestrunAvgAggregateInputObjectSchema.optional(), _sum: RequestrunSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.RequestrunAggregateArgs>;
+
+export const RequestrunAggregateZodSchema = z.object({ orderBy: z.union([RequestrunOrderByWithRelationInputObjectSchema, RequestrunOrderByWithRelationInputObjectSchema.array()]).optional(), where: RequestrunWhereInputObjectSchema.optional(), cursor: RequestrunWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), RequestrunCountAggregateInputObjectSchema ]).optional(), _min: RequestrunMinAggregateInputObjectSchema.optional(), _max: RequestrunMaxAggregateInputObjectSchema.optional(), _avg: RequestrunAvgAggregateInputObjectSchema.optional(), _sum: RequestrunSumAggregateInputObjectSchema.optional() }).strict();

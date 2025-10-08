@@ -102,3 +102,16 @@ export { RequestsDeleteManyResultSchema } from './RequestsDeleteManyResult.schem
 export { RequestsAggregateResultSchema } from './RequestsAggregateResult.schema';
 export { RequestsGroupByResultSchema } from './RequestsGroupByResult.schema';
 export { RequestsCountResultSchema } from './RequestsCountResult.schema';
+export { RequestrunFindUniqueResultSchema } from './RequestrunFindUniqueResult.schema';
+export { RequestrunFindFirstResultSchema } from './RequestrunFindFirstResult.schema';
+export { RequestrunFindManyResultSchema } from './RequestrunFindManyResult.schema';
+export { RequestrunCreateResultSchema } from './RequestrunCreateResult.schema';
+export { RequestrunCreateManyResultSchema } from './RequestrunCreateManyResult.schema';
+export { RequestrunUpdateResultSchema } from './RequestrunUpdateResult.schema';
+export { RequestrunUpdateManyResultSchema } from './RequestrunUpdateManyResult.schema';
+export { RequestrunUpsertResultSchema } from './RequestrunUpsertResult.schema';
+export { RequestrunDeleteResultSchema } from './RequestrunDeleteResult.schema';
+export { RequestrunDeleteManyResultSchema } from './RequestrunDeleteManyResult.schema';
+export { RequestrunAggregateResultSchema } from './RequestrunAggregateResult.schema';
+export { RequestrunGroupByResultSchema } from './RequestrunGroupByResult.schema';
+export { RequestrunCountResultSchema } from './RequestrunCountResult.schema';
