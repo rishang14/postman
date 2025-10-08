@@ -72,12 +72,13 @@ const Requesteditorarea = () => {
   };
 
   const handleBodyChange = (data: { contentType: string; body: any }) => {
-    if (!openedRequest) return;
+    if (!openedRequest || !openedCollection || !openedWorkspace) return;
     const values = {
       ...openedRequest,
-      body: JSON.stringify(data.body),
-      saved: true,
+      body: data.body,
+      saved: false,
     };
+    console.log(data.body);
     updateRequest(
       openedWorkspace?.id as string,
       openedCollection?.id as string,
@@ -87,7 +88,7 @@ const Requesteditorarea = () => {
     updateallopenedReq(values);
     setOpendRequests(values);
   };
-
+  console.log(openedRequest?.body, "body data ");
   const getParametersData = () => {
     const parsedData = parsedJsonValue(openedRequest?.parameters);
     return parsedData.length > 0
@@ -148,16 +149,13 @@ const Requesteditorarea = () => {
             key: "Header Name",
             value: "Header Value",
             description: "HTTP Header",
-          }} 
+          }}
           values="Headers"
         />
       </TabsContent>
 
       <TabsContent value="body">
-        <BodyEditor 
-          initialData={getBodyData()}
-          onSubmit={handleBodyChange} 
-        />
+        <BodyEditor initialData={getBodyData()} onSubmit={handleBodyChange} />
       </TabsContent>
     </Tabs>
   );
