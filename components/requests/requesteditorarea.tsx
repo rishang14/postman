@@ -3,6 +3,7 @@ import { useWorkspace } from "@/lib/store/workspace.store";
 import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import KeyValueFormEditor from "./keyvalueformeditor";
+import BodyEditor from "./bodyeditor";
 
 type handlechangeprop = {
   key: string;
@@ -135,26 +136,28 @@ const Requesteditorarea = () => {
             value: "Parameter Value",
             description: "URL Parameter",
           }}
+          values="Parameters"
         />
       </TabsContent>
 
       <TabsContent value="headers">
-        {/* <KeyValueFormEditor
+        <KeyValueFormEditor
           initialData={getHeadersData()}
           onSubmit={handleHeadersChange}
           placeholder={{
             key: "Header Name",
             value: "Header Value",
             description: "HTTP Header",
-          }}
-        /> */}
+          }} 
+          values="Headers"
+        />
       </TabsContent>
 
       <TabsContent value="body">
-        {/* <BodyEditor 
+        <BodyEditor 
           initialData={getBodyData()}
           onSubmit={handleBodyChange} 
-        /> */}
+        />
       </TabsContent>
     </Tabs>
   );

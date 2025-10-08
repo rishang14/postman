@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Plus, Trash2, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const keyValueSchema = z.object({
   items: z.array(
@@ -43,7 +44,8 @@ interface KeyValueFormEditorProps {
     value?: string;
     description?: string;
   };
-  className?: string;
+  className?: string; 
+  values:string
 }
 
 const KeyValueFormEditor: React.FC<KeyValueFormEditorProps> = ({
@@ -54,7 +56,8 @@ const KeyValueFormEditor: React.FC<KeyValueFormEditorProps> = ({
     value: "Value",
     description: "Description",
   },
-  className,
+  className, 
+  values
 }) => {
   const form = useForm<KeyValueFormData>({
     resolver: zodResolver(keyValueSchema),
@@ -69,18 +72,31 @@ const KeyValueFormEditor: React.FC<KeyValueFormEditorProps> = ({
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      items:
+        initialData.length > 0
+          ? initialData.map((item) => ({
+              ...item,
+              enabled: item.enabled ?? true,
+            }))
+          : [{ key: "", value: "", enabled: true }],
+    });
+  }, [initialData, form]);
+
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "items",
   });
 
-  const handleSubmit = (data: KeyValueFormData) => {
-    const filteredItems = data.items
-      .filter((item) => item.enabled && (item.key.trim() || item.value.trim()))
-      .map(({ key, value }) => ({ key, value }));
+    const onsubmit = (data: KeyValueFormData) => {
+      const filteredItems = data.items
+        .filter((item) => item.enabled && (item.key.trim() || item.value.trim()))
+        .map(({ key, value }) => ({ key, value }));
 
-    onSubmit(filteredItems);
-  };
+      onSubmit(filteredItems); 
+      toast.success("Values", {duration:3000,description:"values saved successfully"})
+    };
 
   const addNewRow = () => {
     append({ key: "", value: "", enabled: true });
@@ -97,66 +113,12 @@ const KeyValueFormEditor: React.FC<KeyValueFormEditorProps> = ({
     }
   };
 
-  // Autosave on changes with debounce
-  // We'll serialize the filtered items and only call onSubmit when it changes.
-  const lastSavedRef = useRef<string | null>(null);
 
-  const getFilteredItemsFromValues = (items: KeyValueItem[]) =>
-    items
-      .filter(
-        (item) => item.enabled && (item.key?.trim() || item.value?.trim())
-      )
-      .map(({ key, value }) => ({ key, value }));
-
-  // Simple debounce implementation
-  const debounce = (fn: (...args: any[]) => void, wait = 500) => {
-    let t: ReturnType<typeof setTimeout> | null = null;
-    return (...args: any[]) => {
-      if (t) clearTimeout(t);
-      t = setTimeout(() => fn(...args), wait);
-    };
-  };
-
-  const saveIfChanged = useCallback(
-    (items: KeyValueItem[]) => {
-      const filtered = getFilteredItemsFromValues(items);
-      const serialized = JSON.stringify(filtered);
-      if (serialized !== lastSavedRef.current) {
-        lastSavedRef.current = serialized;
-        onSubmit(filtered);
-      }
-    },
-    [onSubmit]
-  );
-
-  const debouncedSaveRef = useRef(saveIfChanged);
-  // keep ref up to date when saveIfChanged changes
-  useEffect(() => {
-    debouncedSaveRef.current = saveIfChanged;
-  }, [saveIfChanged]);
-
-  const debouncedInvokerRef = useRef<((items: KeyValueItem[]) => void) | null>(
-    null
-  );
-  useEffect(() => {
-    debouncedInvokerRef.current = debounce((items: KeyValueItem[]) => {
-      debouncedSaveRef.current(items);
-    }, 500);
-  }, []);
-
-  // Watch form values and trigger debounced save
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      const items = (value as KeyValueFormData)?.items || [];
-      debouncedInvokerRef.current?.(items as KeyValueItem[]);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form]);
 
   return (
     <div className={cn("w-full", className)}>
-      <Form {...form}>
+      <Form {...form}> 
+        <form onSubmit={form.handleSubmit(onsubmit)}>
         <div className="space-y-4">
           {/* Header */}
           <div className="flex items-center justify-between">
@@ -282,15 +244,12 @@ const KeyValueFormEditor: React.FC<KeyValueFormEditorProps> = ({
                 </div>
               </div>
             ))}
+          </div> 
+          <div>
+            <Button type="submit" className="text-white">Save {values}</Button>
           </div>
-
-          {/* Autosave enabled — changes are saved automatically */}
-          <div className="flex justify-end pt-4">
-            <span className="text-xs text-zinc-500">
-              Changes saved automatically
-            </span>
-          </div>
-        </div>
+        </div> 
+        </form>
       </Form>
     </div>
   );
