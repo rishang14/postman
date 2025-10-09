@@ -96,10 +96,10 @@ const AddRequestCollectionModal = ({
       addRequests(
         openedWorkspace?.id as string,
         collectionid as string,
-        createdRequest
+        {...createdRequest,requestrun:[]}
       );
       if (!fromcollection) {
-        addtoOpenedRequest(createdRequest);
+        addtoOpenedRequest({...createdRequest,requestrun:[]});
       }
       toast.success("Congratulations", {
         duration: 3000,

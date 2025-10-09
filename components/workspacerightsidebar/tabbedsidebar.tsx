@@ -18,7 +18,6 @@ import Collectionfolder from "./collectionsfolder";
 import { useSearchParams } from "next/navigation";
 import { Collection, Requests } from "@prisma/client";
 import { collectionpageprop } from "./collection";
-import { id } from "zod/v4/locales";
 const sidebarItems = [
   { icon: Archive, label: "Collections" },
   { icon: Clock, label: "History" },
@@ -48,7 +47,7 @@ const Tabbedsidebar = ({ collection, requestslist }: collectionpageprop) => {
     if (!openedWorkspace?.id || !requestslist) return;
 
     for (const [id, reqList] of requestslist.entries()) {
-      setRequests(openedWorkspace.id, id, reqList);
+      setRequests(openedWorkspace.id, id, reqList.map((req) => ({ ...req, requestrun: [] })));
     }
   }, [openedWorkspace?.id, requestslist]);
 

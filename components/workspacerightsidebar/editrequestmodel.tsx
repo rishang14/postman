@@ -82,7 +82,7 @@ const EditReqEditModal = ({
         openedWorkspace?.id as string,
         updatedReq.collectionId,
         updatedReq.id,
-        {...updatedReq,rquestrun:[]},
+        {...updatedReq,requestrun:[]},
       );
       toast.success("Congratulations", {
         duration: 3000,

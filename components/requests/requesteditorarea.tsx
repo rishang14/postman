@@ -45,7 +45,7 @@ const Requesteditorarea = () => {
       ...openedRequest,
       headers: JSON.stringify(filteredItem),
       saved: false, 
-      rquestrun:[]
+      requestrun:[]
     };
     updateRequest(
       openedWorkspace?.id as string,
@@ -67,7 +67,7 @@ const Requesteditorarea = () => {
       ...openedRequest,
       parameters: JSON.stringify(filteredItem),
       saved: false, 
-      rquestrun:[]
+      requestrun:[]
     };
     updateRequest(
       openedWorkspace?.id as string,
@@ -85,7 +85,7 @@ const Requesteditorarea = () => {
       ...openedRequest,
       body: data.body,
       saved: false, 
-      rquestrun:[]
+      requestrun:[]
     };
     console.log(data.body);
     updateRequest(
@@ -128,11 +128,11 @@ const Requesteditorarea = () => {
       {
         ...openedRequest,
         saved: true, 
-        rquestrun:[]
+        requestrun:[]
       }
     );
-    setOpendRequests({ ...openedRequest, saved: true });
-    updateallopenedReq({ ...openedRequest, saved: true });
+    setOpendRequests({ ...openedRequest, saved: true,requestrun:[] });
+    updateallopenedReq({ ...openedRequest, saved: true,requestrun:[] });
     toast.success("Congratulations", {
       duration: 3000,
       description: "Your request is updated successfully",

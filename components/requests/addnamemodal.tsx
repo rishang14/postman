@@ -50,15 +50,17 @@ const AddNameModal = ({
         openedWorkspace?.id as string,
         openedCollection?.id as string,
         opendtab.id,
-        { ...opendtab, name: newRequestname,rquestrun:[]}
+        { ...opendtab, name: newRequestname,requestrun:[]}
       );
       setOpendRequests({
         ...opendtab,
         name: newRequestname,
+        requestrun:[]
       });
       updateallopenedReq({
         ...opendtab,
-        name: newRequestname,
+        name: newRequestname, 
+        requestrun:[]
       });
       toast.success("Congratulations", {
         duration: 3000,

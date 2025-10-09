@@ -62,8 +62,8 @@ const Collectionfolder = ({ collection, requests }: prop) => {
     e: React.MouseEvent<HTMLDivElement>,
     request: Requests
   ) => {
-    setOpendRequests(request);
-    addtoOpenedRequest(request);
+    setOpendRequests({...request,requestrun:[]});
+    addtoOpenedRequest({...request,requestrun:[]});
   };
 
   return (

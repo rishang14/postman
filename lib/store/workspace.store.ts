@@ -1,15 +1,14 @@
 import { Collection, Requestrun, Requests, Workspace } from "@prisma/client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { WorkspaceMember } from "@prisma/client";
-import { da } from "zod/v4/locales";
+import { WorkspaceMember } from "@prisma/client"; 
 
 export type workspacewithmember = Workspace & {
   members: WorkspaceMember[] | [];
 };
 
 export type RequestWithResponse = Requests & {
-  rquestrun:Requestrun[] | []
+  requestrun:Requestrun[] | []
 }
 export type collectionwithrequest = Collection & {
   request: RequestWithResponse[] | [];
@@ -27,8 +26,8 @@ type workspacetype = {
   openedRequest: Requests | null;
   setOpenwokrspace: (data: Workspace) => void;
   setOpendcollection: (data: Collection) => void;
-  setOpendRequests: (data: Requests) => void;
-  addtoOpenedRequest: (data: Requests) => void;
+  setOpendRequests: (data: RequestWithResponse) => void;
+  addtoOpenedRequest: (data: RequestWithResponse) => void;
   setworkspace: (data: workspacecwithCollection[]) => void;
   addworkspace: (data: workspacecwithCollection) => void;
   deleteworkspace: (data: Workspace) => void;
@@ -63,7 +62,7 @@ type workspacetype = {
     data: RequestWithResponse
   ) => void;
   removeFromallOpendRequest: (data: string) => void;
-  updateallopenedReq: (data: Requests) => void;
+  updateallopenedReq: (data: RequestWithResponse) => void;
 };
 
 export const useWorkspace = create<workspacetype>()(

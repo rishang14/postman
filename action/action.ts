@@ -290,7 +290,6 @@ export const runRequest = async (value: Requests) => {
     };
 
     const send = await sendrequest(requestConfig);
-    console.log(send, "send request output ");
     const requestRun = await prisma.requestrun.create({
       data: {
         requestid: value.id,
@@ -304,10 +303,12 @@ export const runRequest = async (value: Requests) => {
           : null,
         durationMs: send.duration || 0,
       },
-    });
+    }); 
+
+    let requestdata:Requests | null=null;
 
     if (send.data && !send.error) {
-      await prisma.requests.update({
+    requestdata=  await prisma.requests.update({
         where: { id: value.id },
         data: {
           response: send.data,
@@ -319,7 +320,7 @@ export const runRequest = async (value: Requests) => {
     return {
       success: true,
       requestRun,
-      send,
+      requestdata,
     };
   } catch (error: any) {
     console.log("wrror in run req ", error);
