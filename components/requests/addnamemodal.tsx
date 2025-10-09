@@ -50,7 +50,7 @@ const AddNameModal = ({
         openedWorkspace?.id as string,
         openedCollection?.id as string,
         opendtab.id,
-        { ...opendtab, name: newRequestname }
+        { ...opendtab, name: newRequestname,rquestrun:[]}
       );
       setOpendRequests({
         ...opendtab,

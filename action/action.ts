@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { workspacewithmember } from "@/lib/store/workspace.store";
 import { Collection, Requests, REST_METHOD, Workspace } from "@prisma/client";
 import { headers } from "next/headers";
-import { da } from "zod/v4/locales";
+import axios, { AxiosRequestConfig } from "axios";
 
 export const getUserDeatils = async () => {
   const session = await auth.api.getSession({
@@ -219,4 +219,132 @@ export const removeReq = async (reqid: string) => {
       id: reqid,
     },
   });
+};
+
+export const sendrequest = async (req: {
+  method: string;
+  url: string;
+  headers?: Record<string, string>;
+  params?: Record<string, string>;
+  body?: any;
+}) => {
+  let start;
+  try {
+    const requests: AxiosRequestConfig = {
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      params: req.params,
+      data: req.body,
+      validateStatus: () => true,
+    };
+
+    start = performance.now();
+    const res = await axios(requests);
+    const end = performance.now();
+    console.log(res, "res in the data ");
+    const duration = end - start;
+    const size =
+      res.headers["content-length"] ||
+      new TextEncoder().encode(JSON.stringify(res.data)).length;
+
+    console.log(res.data, "dataa in the send requ ");
+
+    return {
+      status: res.status,
+      statusText: res.statusText,
+      headers: Object.fromEntries(Object.entries(res.headers)),
+      data: res.data,
+      duration: Math.round(duration),
+      size,
+    };
+  } catch (error: any) {
+    console.log("errrrrrorrrr haaappppend in the send req", error);
+    return {
+      error: error.message,
+      duration: 0,
+    };
+  }
+};
+
+export const runRequest = async (value: Requests) => {
+  console.log(value, "valuess in the run request");
+  try {
+
+    const headers =
+      typeof value.headers === "string"
+        ? JSON.parse(value.headers || "{}")
+        : value.headers || {};
+
+    const params =
+      typeof value.parameters === "string"
+        ? JSON.parse(value.parameters || "{}")
+        : value.parameters || {};
+
+    const requestConfig = {
+      method: value.method,
+      url: value.url,
+      headers,
+      params,
+      body: value.body || undefined,
+    };
+
+    const send = await sendrequest(requestConfig);
+    console.log(send, "send request output ");
+    const requestRun = await prisma.requestrun.create({
+      data: {
+        requestid: value.id,
+        status: send.status || 0,
+        statusText: send.statusText || (send.error ? "Error" : null),
+        headers: send.headers || "",
+        body: send.data
+          ? typeof send.data === "string"
+            ? send.data
+            : JSON.stringify(send.data)
+          : null,
+        durationMs: send.duration || 0,
+      },
+    });
+
+    if (send.data && !send.error) {
+      await prisma.requests.update({
+        where: { id: value.id },
+        data: {
+          response: send.data,
+          updatedAt: new Date(),
+        },
+      });
+    }
+
+    return {
+      success: true,
+      requestRun,
+      send,
+    };
+  } catch (error: any) {
+    console.log("wrror in run req ", error);
+    try {
+      const failedRun = await prisma.requestrun.create({
+        data: {
+          requestid: value.id,
+          status: 0,
+          statusText: "Failed",
+          headers: "",
+          body: error.message,
+          durationMs: 0,
+        },
+      });
+
+      return {
+        success: false,
+        error: error.message,
+        requestRun: failedRun,
+      };
+    } catch (dbError) {
+      return {
+        success: false,
+        error: `Request failed: ${error.message}. DB save failed: ${(dbError as Error).message}`,
+      };
+    }
+  }
 };

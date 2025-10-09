@@ -75,13 +75,14 @@ const EditReqEditModal = ({
         collectionId: requestdetails.collectionId,
         url,
         method,
-        name: newReqname,
+        name: newReqname, 
+        
       });
       updateRequest(
         openedWorkspace?.id as string,
         updatedReq.collectionId,
         updatedReq.id,
-        updatedReq
+        {...updatedReq,rquestrun:[]},
       );
       toast.success("Congratulations", {
         duration: 3000,

@@ -2,14 +2,18 @@
 import { useWorkspace } from "@/lib/store/workspace.store";
 import React from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { updateRequest as updatereq } from "@/action/action";
 import KeyValueFormEditor from "./keyvalueformeditor";
 import BodyEditor from "./bodyeditor";
+import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 type handlechangeprop = {
   key: string;
   value: string;
   enabled?: boolean;
-};
+};   
+
 
 const Requesteditorarea = () => {
   const {
@@ -20,6 +24,8 @@ const Requesteditorarea = () => {
     setOpendRequests,
     updateallopenedReq,
   } = useWorkspace();
+  if (!openedRequest) return null;
+
   const parsedJsonValue = (jsonval?: any) => {
     if (!jsonval) return [];
     try {
@@ -38,13 +44,14 @@ const Requesteditorarea = () => {
     const values = {
       ...openedRequest,
       headers: JSON.stringify(filteredItem),
-      saved: false,
+      saved: false, 
+      rquestrun:[]
     };
     updateRequest(
       openedWorkspace?.id as string,
       openedCollection?.id as string,
       openedRequest?.id as string,
-      values
+      values, 
     );
     updateallopenedReq(values);
     setOpendRequests(values);
@@ -59,7 +66,8 @@ const Requesteditorarea = () => {
     const values = {
       ...openedRequest,
       parameters: JSON.stringify(filteredItem),
-      saved: false,
+      saved: false, 
+      rquestrun:[]
     };
     updateRequest(
       openedWorkspace?.id as string,
@@ -76,7 +84,8 @@ const Requesteditorarea = () => {
     const values = {
       ...openedRequest,
       body: data.body,
-      saved: false,
+      saved: false, 
+      rquestrun:[]
     };
     console.log(data.body);
     updateRequest(
@@ -88,7 +97,6 @@ const Requesteditorarea = () => {
     updateallopenedReq(values);
     setOpendRequests(values);
   };
-  console.log(openedRequest?.body, "body data ");
   const getParametersData = () => {
     const parsedData = parsedJsonValue(openedRequest?.parameters);
     return parsedData.length > 0
@@ -110,24 +118,48 @@ const Requesteditorarea = () => {
     };
   };
 
-  if (!openedRequest) return null;
+  const SaveReq = async () => {
+    // setIspending(true);
+    const updatedReq = await updatereq({ ...openedRequest, saved: true });
+    updateRequest(
+      openedWorkspace?.id as string,
+      openedCollection?.id as string,
+      openedRequest.id,
+      {
+        ...openedRequest,
+        saved: true, 
+        rquestrun:[]
+      }
+    );
+    setOpendRequests({ ...openedRequest, saved: true });
+    updateallopenedReq({ ...openedRequest, saved: true });
+    toast.success("Congratulations", {
+      duration: 3000,
+      description: "Your request is updated successfully",
+    });
+    // setIspending(false);
+  };
+  
+  console.log(openedRequest.response,"values of response")
   return (
     <Tabs
       defaultValue="parameters"
       className="bg-zinc-900 rounded-md w-full px-4 py-4"
     >
-      <TabsList className="bg-zinc-800 rounded-t-md">
-        <TabsTrigger value="parameters" className="flex-1">
-          Parameters
-        </TabsTrigger>
-        <TabsTrigger value="headers" className="flex-1">
-          Headers
-        </TabsTrigger>
-        <TabsTrigger value="body" className="flex-1">
-          Body
-        </TabsTrigger>
-      </TabsList>
-
+      <div className=" w-full flex justify-between items-center py-3">
+        <TabsList className="bg-zinc-800 rounded-t-md">
+          <TabsTrigger value="parameters" className="flex-1">
+            Parameters
+          </TabsTrigger>
+          <TabsTrigger value="headers" className="flex-1">
+            Headers
+          </TabsTrigger>
+          <TabsTrigger value="body" className="flex-1">
+            Body
+          </TabsTrigger>
+        </TabsList>
+        <Button disabled={openedRequest.url.length < 5} className=" text-white bg-indigo-400" onClick={SaveReq}>Save Requests</Button>
+      </div>
       <TabsContent value="parameters">
         <KeyValueFormEditor
           initialData={getParametersData()}

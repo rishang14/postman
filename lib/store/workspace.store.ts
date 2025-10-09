@@ -1,4 +1,4 @@
-import { Collection, Requests, Workspace } from "@prisma/client";
+import { Collection, Requestrun, Requests, Workspace } from "@prisma/client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { WorkspaceMember } from "@prisma/client";
@@ -7,8 +7,12 @@ import { da } from "zod/v4/locales";
 export type workspacewithmember = Workspace & {
   members: WorkspaceMember[] | [];
 };
+
+export type RequestWithResponse = Requests & {
+  rquestrun:Requestrun[] | []
+}
 export type collectionwithrequest = Collection & {
-  request: Requests[] | [];
+  request: RequestWithResponse[] | [];
 };
 
 export type workspacecwithCollection = workspacewithmember & {
@@ -40,12 +44,12 @@ type workspacetype = {
   setRequests: (
     workspaceid: string,
     collectionid: string,
-    data: Requests[]
+    data: RequestWithResponse[]
   ) => void;
   addRequests: (
     workspaceid: string,
     collectionid: string,
-    data: Requests
+    data: RequestWithResponse
   ) => void;
   deleteRequest: (
     workspaceid: string,
@@ -56,7 +60,7 @@ type workspacetype = {
     workspaceid: string,
     collectionid: string,
     requestid: string,
-    data: Requests
+    data: RequestWithResponse
   ) => void;
   removeFromallOpendRequest: (data: string) => void;
   updateallopenedReq: (data: Requests) => void;

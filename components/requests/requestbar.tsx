@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import { updateRequest as updatereq } from "@/action/action";
+import { runRequest, updateRequest as updatereq } from "@/action/action";
 import { toast } from "sonner";
 import { useWorkspace } from "@/lib/store/workspace.store";
 import { REST_METHOD } from "@prisma/client";
@@ -43,33 +43,24 @@ const RequestBar = () => {
       {
         ...openedRequest,
         method,
-        saved: false,
+        saved: false, 
+        rquestrun:[]
       }
     );
     setOpendRequests({ ...openedRequest, method, saved: false });
     updateallopenedReq({ ...openedRequest, method, saved: false });
   };
 
-  const onSendRequest = async () => {
-    setIspending(true);
-    const updatedReq = await updatereq({ ...openedRequest, saved: true });
-    updateRequest(
-      openedWorkspace?.id as string,
-      openedCollection?.id as string,
-      openedRequest.id,
-      {
-        ...openedRequest,
-        saved: true,
-      }
-    );
-    setOpendRequests({ ...openedRequest, saved: true });
-    updateallopenedReq({ ...openedRequest, saved: true });
-    toast.success("Congratulations", {
-      duration: 3000,
-      description: "Your request is updated successfully",
-    });
-    setIspending(false);
-  };
+ 
+
+  const runReq=async()=>{
+  try {
+       const data= await runRequest(openedRequest);  
+       console.log(data,"dataaaaa in the run request")
+  } catch (error) {
+    
+  }
+  }
   return (
     <div className="flex flex-row items-center justify-between bg-zinc-900 rounded-md px-2 py-2 w-full">
       <div className="flex flex-row items-center gap-2 flex-1">
@@ -105,7 +96,7 @@ const RequestBar = () => {
               openedWorkspace?.id as string,
               openedCollection?.id as string,
               openedRequest.id,
-              { ...openedRequest, url: e.target.value, saved: false }
+              { ...openedRequest, url: e.target.value, saved: false,rquestrun:[] }
             );
             setOpendRequests({
               ...openedRequest,
@@ -126,12 +117,12 @@ const RequestBar = () => {
 
       <Button
         type="submit"
-        onClick={onSendRequest}
+        onClick={runReq}
         disabled={isPending || openedRequest.url.length < 5}
         className="ml-2 text-white  font-bold bg-indigo-500 hover:bg-indigo-600"
       >
         <Send className="mr-2" />
-        Send
+        Send Request
       </Button>
     </div>
   );
