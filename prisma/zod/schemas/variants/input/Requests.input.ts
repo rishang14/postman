@@ -12,7 +12,7 @@ export const RequestsInputSchema = z.object({
     parameters: z.unknown().optional().nullable(),
     headers: z.unknown().optional().nullable(),
     saved: z.boolean(),
-    requestrun: z.array(z.unknown()),
+    requestrun: z.unknown().optional().nullable(),
     body: z.unknown().optional().nullable(),
     response: z.unknown().optional().nullable(),
     createdAt: z.date(),

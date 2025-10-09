@@ -11,4 +11,3 @@ export { WorkspaceModelSchema } from './Workspace.pure';
 export { WorkspaceMemberModelSchema } from './WorkspaceMember.pure';
 export { CollectionModelSchema } from './Collection.pure';
 export { RequestsModelSchema } from './Requests.pure';
-export { RequestrunModelSchema } from './Requestrun.pure';

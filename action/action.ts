@@ -165,7 +165,10 @@ export const getAllrequest = async (collectionId: string) => {
   return prisma.requests.findMany({
     where: {
       collectionId,
-    },
+    }, 
+    include:{
+      requestrun:true
+    }
   });
 };
 

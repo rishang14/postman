@@ -1,5 +1,5 @@
 import * as z from 'zod';
 
-export const RequestsScalarFieldEnumSchema = z.enum(['id', 'name', 'method', 'collectionId', 'url', 'parameters', 'headers', 'saved', 'body', 'response', 'createdAt', 'updatedAt'])
+export const RequestsScalarFieldEnumSchema = z.enum(['id', 'name', 'method', 'collectionId', 'url', 'parameters', 'headers', 'saved', 'requestrun', 'body', 'response', 'createdAt', 'updatedAt'])
 
 export type RequestsScalarFieldEnum = z.infer<typeof RequestsScalarFieldEnumSchema>;

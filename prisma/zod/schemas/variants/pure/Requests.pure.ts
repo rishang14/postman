@@ -12,7 +12,7 @@ export const RequestsModelSchema = z.object({
     parameters: z.unknown().nullable(),
     headers: z.unknown().nullable(),
     saved: z.boolean(),
-    requestrun: z.array(z.unknown()),
+    requestrun: z.unknown().nullable(),
     body: z.unknown().nullable(),
     response: z.unknown().nullable(),
     createdAt: z.date(),

@@ -14,8 +14,9 @@ export type collectionpageprop = {
   requestslist: Map<string, Requests[] | []>;
 };
 
-const CollectionPage = ({ collection, requestslist }: collectionpageprop) => {
-  return (
+const CollectionPage = ({ collection, requestslist }: collectionpageprop) => { 
+  console.log(requestslist,"requestlist");
+  return (  
     <>
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={65} minSize={40}>

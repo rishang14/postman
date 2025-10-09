@@ -5,8 +5,7 @@ import { REST_METHODSchema } from '../enums/REST_METHOD.schema';
 import { EnumREST_METHODFieldUpdateOperationsInputObjectSchema as EnumREST_METHODFieldUpdateOperationsInputObjectSchema } from './EnumREST_METHODFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
-import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { RequestrunUncheckedUpdateManyWithoutRequestNestedInputObjectSchema as RequestrunUncheckedUpdateManyWithoutRequestNestedInputObjectSchema } from './RequestrunUncheckedUpdateManyWithoutRequestNestedInput.schema'
+import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -19,11 +18,11 @@ const makeSchema = () => z.object({
   parameters: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   headers: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   saved: z.union([z.boolean(), z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema)]).optional(),
+  requestrun: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  requestrun: z.lazy(() => RequestrunUncheckedUpdateManyWithoutRequestNestedInputObjectSchema).optional()
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional()
 }).strict();
 export const RequestsUncheckedUpdateInputObjectSchema: z.ZodType<Prisma.RequestsUncheckedUpdateInput> = makeSchema() as unknown as z.ZodType<Prisma.RequestsUncheckedUpdateInput>;
 export const RequestsUncheckedUpdateInputObjectZodSchema = makeSchema();

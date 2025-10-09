@@ -87,7 +87,6 @@ const Requesteditorarea = () => {
       saved: false, 
       requestrun:[]
     };
-    console.log(data.body);
     updateRequest(
       openedWorkspace?.id as string,
       openedCollection?.id as string,

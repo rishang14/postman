@@ -19,30 +19,18 @@ import {
   Settings,
   TestTube,
 } from "lucide-react";
+import { useWorkspace } from "@/lib/store/workspace.store";
 
 type HeadersMap = Record<string, string>;
 
-interface Result {
-  status?: number;
-  statusText?: string;
-  duration?: number;
-  size?: number;
-}
 
-export interface ResponseData {
-  success: boolean;
-  requestRun: Requestrun;
-  result?: Result;
-}
 
-interface Props {
-  responseData: ResponseData;
-}
-
-const ResponseViewer = ({ responseData }: Props) => {
+const ResponseViewer = () => {
   const [activeTab, setActiveTab] = useState("json");
-
-  const getStatusColor = (status?: number): string => {
+  const {openedRequest}=useWorkspace(); 
+  console.log(openedRequest?.requestrun[0],"response one ")
+  console.log(openedRequest?.response,"response");
+   const getStatusColor = (status?: number): string => {
     const s = typeof status === "number" ? status : 0;
     if (s >= 200 && s < 300) return "text-green-400";
     if (s >= 300 && s < 400) return "text-yellow-400";
@@ -70,7 +58,7 @@ const ResponseViewer = ({ responseData }: Props) => {
   let responseBody: unknown = {};
   let formattedJsonString = "";
   try {
-    const rawBody = responseData?.requestRun?.body;
+    const rawBody = openedRequest?.body;
     if (typeof rawBody === "string") {
       responseBody = rawBody.length ? JSON.parse(rawBody) : rawBody;
     } else {
@@ -79,7 +67,7 @@ const ResponseViewer = ({ responseData }: Props) => {
     formattedJsonString = JSON.stringify(responseBody, null, 2);
   } catch (e) {
     // If parsing fails, fall back to the raw string
-    responseBody = responseData?.requestRun?.body ?? {};
+    responseBody = openedRequest?.body ?? {};
     formattedJsonString =
       typeof responseBody === "string"
         ? responseBody
@@ -87,13 +75,13 @@ const ResponseViewer = ({ responseData }: Props) => {
   }
 
   const status: number | undefined =
-    responseData.result?.status ?? responseData.requestRun?.status;
+    openedRequest?.response?.status ?? openedRequest?.requestrun[0]?.status;
   const statusText: string | undefined =
     responseData.result?.statusText ??
     (responseData.requestRun?.statusText as string);
   const duration: number | undefined =
     responseData.result?.duration ??
-    (responseData.requestRun?.durationMs as number);
+    (openedRequest?.requestrun[0]?.durationMs as number);
   const size: number | undefined = responseData.result?.size;
   const rawBody = responseData.requestRun?.body;
 

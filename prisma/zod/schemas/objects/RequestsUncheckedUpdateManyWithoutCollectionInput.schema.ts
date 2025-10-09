@@ -17,6 +17,7 @@ const makeSchema = () => z.object({
   parameters: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   headers: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   saved: z.union([z.boolean(), z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema)]).optional(),
+  requestrun: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),

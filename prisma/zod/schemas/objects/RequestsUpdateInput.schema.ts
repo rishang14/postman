@@ -6,8 +6,7 @@ import { EnumREST_METHODFieldUpdateOperationsInputObjectSchema as EnumREST_METHO
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema as BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { DateTimeFieldUpdateOperationsInputObjectSchema as DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
-import { CollectionUpdateOneRequiredWithoutRequestNestedInputObjectSchema as CollectionUpdateOneRequiredWithoutRequestNestedInputObjectSchema } from './CollectionUpdateOneRequiredWithoutRequestNestedInput.schema';
-import { RequestrunUpdateManyWithoutRequestNestedInputObjectSchema as RequestrunUpdateManyWithoutRequestNestedInputObjectSchema } from './RequestrunUpdateManyWithoutRequestNestedInput.schema'
+import { CollectionUpdateOneRequiredWithoutRequestNestedInputObjectSchema as CollectionUpdateOneRequiredWithoutRequestNestedInputObjectSchema } from './CollectionUpdateOneRequiredWithoutRequestNestedInput.schema'
 
 import { JsonValueSchema as jsonSchema } from '../../helpers/json-helpers';
 
@@ -19,12 +18,12 @@ const makeSchema = () => z.object({
   parameters: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   headers: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   saved: z.union([z.boolean(), z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema)]).optional(),
+  requestrun: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   body: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   response: z.union([NullableJsonNullValueInputSchema, jsonSchema]).optional(),
   createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
   updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema)]).optional(),
-  collection: z.lazy(() => CollectionUpdateOneRequiredWithoutRequestNestedInputObjectSchema).optional(),
-  requestrun: z.lazy(() => RequestrunUpdateManyWithoutRequestNestedInputObjectSchema).optional()
+  collection: z.lazy(() => CollectionUpdateOneRequiredWithoutRequestNestedInputObjectSchema).optional()
 }).strict();
 export const RequestsUpdateInputObjectSchema: z.ZodType<Prisma.RequestsUpdateInput> = makeSchema() as unknown as z.ZodType<Prisma.RequestsUpdateInput>;
 export const RequestsUpdateInputObjectZodSchema = makeSchema();

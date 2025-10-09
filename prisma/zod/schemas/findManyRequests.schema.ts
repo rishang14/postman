@@ -23,8 +23,7 @@ export const RequestsFindManySelectSchema: z.ZodType<Prisma.RequestsSelect> = z.
     body: z.boolean().optional(),
     response: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional(),
-    _count: z.boolean().optional()
+    updatedAt: z.boolean().optional()
   }).strict() as unknown as z.ZodType<Prisma.RequestsSelect>;
 
 export const RequestsFindManySelectZodSchema = z.object({
@@ -41,8 +40,7 @@ export const RequestsFindManySelectZodSchema = z.object({
     body: z.boolean().optional(),
     response: z.boolean().optional(),
     createdAt: z.boolean().optional(),
-    updatedAt: z.boolean().optional(),
-    _count: z.boolean().optional()
+    updatedAt: z.boolean().optional()
   }).strict();
 
 export const RequestsFindManySchema: z.ZodType<Prisma.RequestsFindManyArgs> = z.object({ select: RequestsFindManySelectSchema.optional(), include: z.lazy(() => RequestsIncludeObjectSchema.optional()), orderBy: z.union([RequestsOrderByWithRelationInputObjectSchema, RequestsOrderByWithRelationInputObjectSchema.array()]).optional(), where: RequestsWhereInputObjectSchema.optional(), cursor: RequestsWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.union([RequestsScalarFieldEnumSchema, RequestsScalarFieldEnumSchema.array()]).optional() }).strict() as unknown as z.ZodType<Prisma.RequestsFindManyArgs>;

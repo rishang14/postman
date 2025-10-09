@@ -7,6 +7,7 @@ export const RequestsGroupByResultSchema = z.array(z.object({
   parameters: z.unknown(),
   headers: z.unknown(),
   saved: z.boolean(),
+  requestrun: z.unknown(),
   body: z.unknown(),
   response: z.unknown(),
   createdAt: z.date(),

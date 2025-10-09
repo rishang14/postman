@@ -19,6 +19,7 @@ const requestsscalarwherewithaggregatesinputSchema = z.object({
   parameters: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   headers: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   saved: z.union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()]).optional(),
+  requestrun: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   body: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   response: z.lazy(() => JsonNullableWithAggregatesFilterObjectSchema).optional(),
   createdAt: z.union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.coerce.date()]).optional(),

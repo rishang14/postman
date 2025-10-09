@@ -1,15 +1,15 @@
 import { Collection, Requestrun, Requests, Workspace } from "@prisma/client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { WorkspaceMember } from "@prisma/client"; 
+import { WorkspaceMember } from "@prisma/client";
 
 export type workspacewithmember = Workspace & {
   members: WorkspaceMember[] | [];
 };
 
 export type RequestWithResponse = Requests & {
-  requestrun:Requestrun[] | []
-}
+  requestrun: Requestrun[] | [];
+};
 export type collectionwithrequest = Collection & {
   request: RequestWithResponse[] | [];
 };
@@ -22,8 +22,8 @@ type workspacetype = {
   workspaces: workspacecwithCollection[];
   openedWorkspace: Workspace | null;
   openedCollection: Collection | null;
-  allopendRequest: Requests[] | [];
-  openedRequest: Requests | null;
+  allopendRequest: RequestWithResponse[] | [];
+  openedRequest: RequestWithResponse | null;
   setOpenwokrspace: (data: Workspace) => void;
   setOpendcollection: (data: Collection) => void;
   setOpendRequests: (data: RequestWithResponse) => void;
@@ -274,9 +274,11 @@ export const useWorkspace = create<workspacetype>()(
 
     removeFromallOpendRequest: (id) => {
       set((state) => {
-        const removedRequest = state.allopendRequest.filter((r) => r.id !== id);
+        const removedRequest = state.allopendRequest.filter(
+          (r) => r.id !== id
+        ) as RequestWithResponse[];
 
-        let newOpendrequest: Requests | null =
+        let newOpendrequest: RequestWithResponse | null =
           state.openedRequest?.id === id
             ? removedRequest[removedRequest.length - 1] || null
             : state.openedRequest;

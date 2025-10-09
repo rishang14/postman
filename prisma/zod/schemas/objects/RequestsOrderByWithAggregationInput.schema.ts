@@ -15,6 +15,7 @@ const makeSchema = () => z.object({
   parameters: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   headers: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   saved: SortOrderSchema.optional(),
+  requestrun: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   body: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   response: z.union([SortOrderSchema, z.lazy(() => SortOrderInputObjectSchema)]).optional(),
   createdAt: SortOrderSchema.optional(),

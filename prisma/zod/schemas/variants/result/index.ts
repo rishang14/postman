@@ -11,4 +11,3 @@ export { WorkspaceResultSchema } from './Workspace.result';
 export { WorkspaceMemberResultSchema } from './WorkspaceMember.result';
 export { CollectionResultSchema } from './Collection.result';
 export { RequestsResultSchema } from './Requests.result';
-export { RequestrunResultSchema } from './Requestrun.result';
