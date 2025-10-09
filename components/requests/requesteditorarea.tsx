@@ -136,7 +136,7 @@ const Requesteditorarea = () => {
     // setIspending(false);
   };
   
-  console.log(openedRequest.response,"values of response")
+
   return (
     <Tabs
       defaultValue="parameters"

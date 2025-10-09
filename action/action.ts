@@ -268,17 +268,25 @@ export const sendrequest = async (req: {
 };
 
 export const runRequest = async (value: Requests) => {
-  console.log(value, "valuess in the run request");
   try {
-    const headers =
+     const rawHeaders =
       typeof value.headers === "string"
         ? JSON.parse(value.headers || "{}")
         : value.headers || {};
 
-    const params =
+    const rawParams =
       typeof value.parameters === "string"
         ? JSON.parse(value.parameters || "{}")
         : value.parameters || {};
+
+    // 🛠️ Convert array-of-objects to plain object
+    const headers = Array.isArray(rawHeaders)
+      ? Object.fromEntries(rawHeaders.map(h => [h.key, h.value]))
+      : rawHeaders;
+
+    const params = Array.isArray(rawParams)
+      ? Object.fromEntries(rawParams.map(p => [p.key, p.value]))
+      : rawParams;
 
     const requestConfig = {
       method: value.method,
@@ -287,6 +295,7 @@ export const runRequest = async (value: Requests) => {
       params,
       body: value.body || undefined,
     };
+
 
     const send = await sendrequest(requestConfig);
     const requestRun = {
@@ -309,7 +318,7 @@ export const runRequest = async (value: Requests) => {
         where: { id: value.id },
         data: {
           response: send.data,
-          requestrun: JSON.stringify(requestRun),
+          requestrun: requestRun,
           updatedAt: new Date(),
         },
       });
@@ -320,7 +329,6 @@ export const runRequest = async (value: Requests) => {
       requestdata,
     };
   } catch (error: any) {
-    console.log("wrror in run req ", error);
     try {
       const failedRun = {
         requestid: value.id,
@@ -336,7 +344,8 @@ export const runRequest = async (value: Requests) => {
           id: value.id,
         },
         data: {
-          response: JSON.stringify(failedRun),
+          requestrun: failedRun,  
+          response:undefined
         },
       });
       return {

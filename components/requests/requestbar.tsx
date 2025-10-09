@@ -71,8 +71,10 @@ const RequestBar = () => {
         setOpendRequests(requestdata);
         updateallopenedReq(requestdata);
       }
-    } catch (error) {}
-  };
+    } catch (error) {
+
+    }
+  }; 
 
   return (
     <div className="flex flex-row items-center justify-between bg-zinc-900 rounded-md px-2 py-2 w-full">

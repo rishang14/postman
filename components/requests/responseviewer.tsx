@@ -20,16 +20,18 @@ import {
 } from "lucide-react";
 import { useWorkspace } from "@/lib/store/workspace.store";
 
-type HeadersMap = Record<string, string>;
 
 
 
 const ResponseViewer = () => {
   const [activeTab, setActiveTab] = useState("json");
   const {openedRequest}=useWorkspace(); 
-  console.log(openedRequest?.requestrun[0],"response one ")
-  console.log(openedRequest?.response,"response");
-   const getStatusColor = (status?: number): string => {
+
+  if(!openedRequest?.requestrun  && !openedRequest?.response)return; 
+
+  const response=openedRequest.response as any; 
+  const requestrun=openedRequest.requestrun as any; 
+  const getStatusColor = (status?: number): string => {
     const s = typeof status === "number" ? status : 0;
     if (s >= 200 && s < 300) return "text-green-400";
     if (s >= 300 && s < 400) return "text-yellow-400";
@@ -57,7 +59,7 @@ const ResponseViewer = () => {
   let responseBody: unknown = {};
   let formattedJsonString = "";
   try {
-    const rawBody = openedRequest?.body;
+    const rawBody =  (requestrun as any)?.body;
     if (typeof rawBody === "string") {
       responseBody = rawBody.length ? JSON.parse(rawBody) : rawBody;
     } else {
@@ -66,7 +68,7 @@ const ResponseViewer = () => {
     formattedJsonString = JSON.stringify(responseBody, null, 2);
   } catch (e) {
     // If parsing fails, fall back to the raw string
-    responseBody = openedRequest?.body ?? {};
+    responseBody =  (requestrun as any)?.body ?? {};
     formattedJsonString =
       typeof responseBody === "string"
         ? responseBody
@@ -74,15 +76,13 @@ const ResponseViewer = () => {
   }
 
   const status: number | undefined =
-    openedRequest?.response?.status ?? openedRequest?.requestrun[0]?.status;
+    response?.status ?? requestrun?.status;
   const statusText: string | undefined =
-    responseData.result?.statusText ??
-    (responseData.requestRun?.statusText as string);
+    response?.statusText ?? requestrun?.statusText;
   const duration: number | undefined =
-    responseData.result?.duration ??
-    (openedRequest?.requestrun[0]?.durationMs as number);
-  const size: number | undefined = responseData.result?.size;
-  const rawBody = responseData.requestRun?.body;
+    response?.duration ?? requestrun?.durationMs;
+  const size: number | undefined = response.size;
+  const rawBody =requestrun?.body;
 
   return (
     <div className="w-full bg-zinc-950 text-white p-6">
@@ -182,7 +182,7 @@ const ResponseViewer = () => {
                       className="ml-2 text-xs bg-zinc-700"
                     >
                       {
-                        Object.keys(responseData.requestRun.headers ?? {})
+                        Object.keys(requestrun.headers ?? {})
                           .length
                       }
                     </Badge>
@@ -290,7 +290,7 @@ const ResponseViewer = () => {
                   <div className="p-6">
                     <div className="space-y-3">
                       {Object.entries(
-                        responseData.requestRun.headers ?? {}
+                        requestrun.headers ?? {}
                       ).map(([key, value]) => (
                         <div
                           key={key}
@@ -301,7 +301,7 @@ const ResponseViewer = () => {
                               {key}
                             </div>
                             <div className="text-gray-300 text-sm break-all">
-                              {value}
+                              {value as any}
                             </div>
                           </div>
                           <Button

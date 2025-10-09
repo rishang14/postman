@@ -3,6 +3,7 @@ import { useWorkspace } from "@/lib/store/workspace.store";
 import React from "react";
 import RequestBar from "./requestbar";
 import Requesteditorarea from "./requesteditorarea";
+import ResponseViewer from "./responseviewer";
 
 const Requesteditor = () => {
   const { openedRequest } = useWorkspace();
@@ -15,10 +16,7 @@ const Requesteditor = () => {
       <div className="flex flex-1 flex-col w-full justify-start mt-4 items-center ">
         <Requesteditorarea />
       </div>
-      {/* {
-        responseViewerData &&
-       <ResponseViewer responseData={responseViewerData} />
-       } */}
+       <ResponseViewer/>
     </div>
   );
 };
