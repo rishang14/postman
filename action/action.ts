@@ -165,10 +165,7 @@ export const getAllrequest = async (collectionId: string) => {
   return prisma.requests.findMany({
     where: {
       collectionId,
-    }, 
-    include:{
-      requestrun:true
-    }
+    },
   });
 };
 
@@ -273,7 +270,6 @@ export const sendrequest = async (req: {
 export const runRequest = async (value: Requests) => {
   console.log(value, "valuess in the run request");
   try {
-
     const headers =
       typeof value.headers === "string"
         ? JSON.parse(value.headers || "{}")
@@ -293,28 +289,27 @@ export const runRequest = async (value: Requests) => {
     };
 
     const send = await sendrequest(requestConfig);
-    const requestRun = await prisma.requestrun.create({
-      data: {
-        requestid: value.id,
-        status: send.status || 0,
-        statusText: send.statusText || (send.error ? "Error" : null),
-        headers: send.headers || "",
-        body: send.data
-          ? typeof send.data === "string"
-            ? send.data
-            : JSON.stringify(send.data)
-          : null,
-        durationMs: send.duration || 0,
-      },
-    }); 
+    const requestRun = {
+      requestid: value.id,
+      status: send.status || 0,
+      statusText: send.statusText || (send.error ? "Error" : null),
+      headers: send.headers || "",
+      body: send.data
+        ? typeof send.data === "string"
+          ? send.data
+          : JSON.stringify(send.data)
+        : null,
+      durationMs: send.duration || 0,
+    };
 
-    let requestdata:Requests | null=null;
+    let requestdata: Requests | null = null;
 
     if (send.data && !send.error) {
-    requestdata=  await prisma.requests.update({
+      requestdata = await prisma.requests.update({
         where: { id: value.id },
         data: {
           response: send.data,
+          requestrun: JSON.stringify(requestRun),
           updatedAt: new Date(),
         },
       });
@@ -322,27 +317,32 @@ export const runRequest = async (value: Requests) => {
 
     return {
       success: true,
-      requestRun,
       requestdata,
     };
   } catch (error: any) {
     console.log("wrror in run req ", error);
     try {
-      const failedRun = await prisma.requestrun.create({
+      const failedRun = {
+        requestid: value.id,
+        status: 0,
+        statusText: "Failed",
+        headers: "",
+        body: error.message,
+        durationMs: 0,
+      };
+
+      const run = await prisma.requests.update({
+        where: {
+          id: value.id,
+        },
         data: {
-          requestid: value.id,
-          status: 0,
-          statusText: "Failed",
-          headers: "",
-          body: error.message,
-          durationMs: 0,
+          response: JSON.stringify(failedRun),
         },
       });
-
       return {
         success: false,
         error: error.message,
-        requestRun: failedRun,
+        requestRun: run,
       };
     } catch (dbError) {
       return {

@@ -15,7 +15,6 @@ export type collectionpageprop = {
 };
 
 const CollectionPage = ({ collection, requestslist }: collectionpageprop) => { 
-  console.log(requestslist,"requestlist");
   return (  
     <>
       <ResizablePanelGroup direction="horizontal">

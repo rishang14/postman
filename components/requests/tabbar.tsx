@@ -35,10 +35,10 @@ const TabBar = () => {
           <div
             key={tab.id}
             onDoubleClick={() => {
-              setOpendRequests({...tab,requestrun:[]});
+              setOpendRequests(tab);
               setChangeNameModalopen(true);
             }}
-            onClick={() => setOpendRequests({...tab,requestrun:[]})}
+            onClick={() => setOpendRequests(tab)}
             className={`group px-4 py-2 flex items-center gap-2 cursor-pointer ${
               openedRequest?.id === tab.id
                 ? "bg-zinc-800 text-white border-t-2 border-indigo-500 rounded-sm mx-2 my-2"

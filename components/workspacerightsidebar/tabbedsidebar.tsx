@@ -47,7 +47,7 @@ const Tabbedsidebar = ({ collection, requestslist }: collectionpageprop) => {
     if (!openedWorkspace?.id || !requestslist) return;
 
     for (const [id, reqList] of requestslist.entries()) {
-      setRequests(openedWorkspace.id, id, reqList.map((req) => ({ ...req, requestrun: [] })));
+      setRequests(openedWorkspace.id, id, reqList);
     }
   }, [openedWorkspace?.id, requestslist]);
 

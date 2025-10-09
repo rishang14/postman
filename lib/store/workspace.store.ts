@@ -1,4 +1,4 @@
-import { Collection, Requestrun, Requests, Workspace } from "@prisma/client";
+import { Collection, Requests, Workspace } from "@prisma/client";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { WorkspaceMember } from "@prisma/client";
@@ -7,11 +7,8 @@ export type workspacewithmember = Workspace & {
   members: WorkspaceMember[] | [];
 };
 
-export type RequestWithResponse = Requests & {
-  requestrun: Requestrun[] | [];
-};
 export type collectionwithrequest = Collection & {
-  request: RequestWithResponse[] | [];
+  request: Requests[] | [];
 };
 
 export type workspacecwithCollection = workspacewithmember & {
@@ -22,12 +19,12 @@ type workspacetype = {
   workspaces: workspacecwithCollection[];
   openedWorkspace: Workspace | null;
   openedCollection: Collection | null;
-  allopendRequest: RequestWithResponse[] | [];
-  openedRequest: RequestWithResponse | null;
+  allopendRequest: Requests[] | [];
+  openedRequest: Requests | null;
   setOpenwokrspace: (data: Workspace) => void;
   setOpendcollection: (data: Collection) => void;
-  setOpendRequests: (data: RequestWithResponse) => void;
-  addtoOpenedRequest: (data: RequestWithResponse) => void;
+  setOpendRequests: (data: Requests) => void;
+  addtoOpenedRequest: (data: Requests) => void;
   setworkspace: (data: workspacecwithCollection[]) => void;
   addworkspace: (data: workspacecwithCollection) => void;
   deleteworkspace: (data: Workspace) => void;
@@ -43,12 +40,12 @@ type workspacetype = {
   setRequests: (
     workspaceid: string,
     collectionid: string,
-    data: RequestWithResponse[]
+    data: Requests[]
   ) => void;
   addRequests: (
     workspaceid: string,
     collectionid: string,
-    data: RequestWithResponse
+    data: Requests
   ) => void;
   deleteRequest: (
     workspaceid: string,
@@ -59,10 +56,10 @@ type workspacetype = {
     workspaceid: string,
     collectionid: string,
     requestid: string,
-    data: RequestWithResponse
+    data: Requests
   ) => void;
   removeFromallOpendRequest: (data: string) => void;
-  updateallopenedReq: (data: RequestWithResponse) => void;
+  updateallopenedReq: (data: Requests) => void;
 };
 
 export const useWorkspace = create<workspacetype>()(
@@ -276,9 +273,9 @@ export const useWorkspace = create<workspacetype>()(
       set((state) => {
         const removedRequest = state.allopendRequest.filter(
           (r) => r.id !== id
-        ) as RequestWithResponse[];
+        ) as Requests[];
 
-        let newOpendrequest: RequestWithResponse | null =
+        let newOpendrequest: Requests | null =
           state.openedRequest?.id === id
             ? removedRequest[removedRequest.length - 1] || null
             : state.openedRequest;

@@ -43,21 +43,21 @@ const RequestBar = () => {
         ...openedRequest,
         method,
         saved: false,
-        requestrun: [],
+     
       }
     );
-    setOpendRequests({ ...openedRequest, method, saved: false,requestrun:[] });
-    updateallopenedReq({ ...openedRequest, method, saved: false ,requestrun:[]});
+    setOpendRequests({ ...openedRequest, method, saved: false });
+    updateallopenedReq({ ...openedRequest, method, saved: false });
   };
 
   const runReq = async () => {
     try {
-      const {requestRun,requestdata,success} = await runRequest(openedRequest);
-       if(success && requestdata && requestRun){
-        updateRequest(openedWorkspace?.id as string,openedCollection?.id as string,openedRequest.id,{...requestdata,requestrun:[requestRun]}) 
-        setOpendRequests({...requestdata,requestrun:[]}); 
-        updateallopenedReq({...requestdata,requestrun:[]})
-       }
+      // const {requestRun,requestdata,success} = await runRequest(openedRequest);
+      //  if(success && requestdata && requestRun){
+      //   updateRequest(openedWorkspace?.id as string,openedCollection?.id as string,openedRequest.id,{...requestdata,requestrun:[requestRun]}) 
+      //   setOpendRequests({...requestdata,requestrun:[]}); 
+      //   updateallopenedReq({...requestdata,requestrun:[]})
+      //  }
     } catch (error) {}
   };
   return (
@@ -98,20 +98,19 @@ const RequestBar = () => {
                 ...openedRequest,
                 url: e.target.value,
                 saved: false,
-                requestrun: [],
               }
             );
             setOpendRequests({
               ...openedRequest,
               url: e.target.value,
               saved: false, 
-              requestrun:[]
+        
             });
             updateallopenedReq({
               ...openedRequest,
               url: e.target.value,
               saved: false, 
-              requestrun:[]
+            
             });
           }}
           placeholder="Enter URL"

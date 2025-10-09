@@ -33,8 +33,7 @@ const AddRequestCollectionModal = ({
   const [url, setUrl] = useState("https://google.com");
   const [method, setMethod] = useState<REST_METHOD>(REST_METHOD.GET);
   const [name, setName] = useState(initialName);
-  const { addRequests, openedWorkspace, workspaces, addtoOpenedRequest } =
-    useWorkspace();
+  const { addRequests, openedWorkspace, workspaces, addtoOpenedRequest } =useWorkspace();
   const collectionavail =
     workspaces.find((w) => w.id === openedWorkspace?.id)?.collection || [];
   const [selectedCollection, setSelectedCollectionId] =
@@ -96,10 +95,10 @@ const AddRequestCollectionModal = ({
       addRequests(
         openedWorkspace?.id as string,
         collectionid as string,
-        {...createdRequest,requestrun:[]}
+        {...createdRequest}
       );
       if (!fromcollection) {
-        addtoOpenedRequest({...createdRequest,requestrun:[]});
+        addtoOpenedRequest(createdRequest);
       }
       toast.success("Congratulations", {
         duration: 3000,
