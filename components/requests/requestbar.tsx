@@ -43,7 +43,6 @@ const RequestBar = () => {
         ...openedRequest,
         method,
         saved: false,
-     
       }
     );
     setOpendRequests({ ...openedRequest, method, saved: false });
@@ -52,14 +51,29 @@ const RequestBar = () => {
 
   const runReq = async () => {
     try {
-      // const {requestRun,requestdata,success} = await runRequest(openedRequest);
-      //  if(success && requestdata && requestRun){
-      //   updateRequest(openedWorkspace?.id as string,openedCollection?.id as string,openedRequest.id,{...requestdata,requestrun:[requestRun]}) 
-      //   setOpendRequests({...requestdata,requestrun:[]}); 
-      //   updateallopenedReq({...requestdata,requestrun:[]})
-      //  }
+      const { requestdata, success } = await runRequest(openedRequest);
+      if (success && requestdata) {
+        updateRequest(
+          openedWorkspace?.id as string,
+          openedCollection?.id as string,
+          openedRequest.id,
+          requestdata
+        );
+        setOpendRequests(requestdata);
+        updateallopenedReq(requestdata);
+      }else if(!success && requestdata){
+         updateRequest(
+          openedWorkspace?.id as string,
+          openedCollection?.id as string,
+          openedRequest.id,
+          requestdata
+        );
+        setOpendRequests(requestdata);
+        updateallopenedReq(requestdata);
+      }
     } catch (error) {}
   };
+
   return (
     <div className="flex flex-row items-center justify-between bg-zinc-900 rounded-md px-2 py-2 w-full">
       <div className="flex flex-row items-center gap-2 flex-1">
@@ -103,14 +117,12 @@ const RequestBar = () => {
             setOpendRequests({
               ...openedRequest,
               url: e.target.value,
-              saved: false, 
-        
+              saved: false,
             });
             updateallopenedReq({
               ...openedRequest,
               url: e.target.value,
-              saved: false, 
-            
+              saved: false,
             });
           }}
           placeholder="Enter URL"
